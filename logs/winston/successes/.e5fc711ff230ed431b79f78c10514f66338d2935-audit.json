@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/.e5fc711ff230ed431b79f78c10514f66338d2935-audit.json",
+    "files": [
+        {
+            "date": 1714143213053,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-26-04-20-success.log",
+            "hash": "8c892bee9d3fdd2314fb4a9e0e2afe9e7e880bcbeb3796421af4bef5434b98ab"
+        }
+    ],
+    "hashType": "sha256"
+}

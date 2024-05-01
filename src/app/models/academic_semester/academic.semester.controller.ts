@@ -1,15 +1,12 @@
 import { AcademicSemester } from '@prisma/client';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import catchAsync from '../../../shared/catchAsynch';
 import sendResponse from '../../../shared/sendResponse';
 import { academicSemesterService } from './academic.semester.services';
 
-const insertAcademicSemester = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
+const insertAcademicSemester = catchAsync(
+  async (req: Request, res: Response) => {
     const result = await academicSemesterService.insertAcademicSemester(
       req.body
     );
@@ -20,10 +17,8 @@ const insertAcademicSemester = async (
       message: 'Academic semester created',
       data: result,
     });
-  } catch (error) {
-    next(error);
   }
-};
+);
 
 export const academicSemesterController = {
   insertAcademicSemester,

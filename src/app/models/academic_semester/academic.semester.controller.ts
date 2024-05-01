@@ -7,6 +7,7 @@ import { academicSemesterService } from './academic.semester.services';
 
 const insertAcademicSemester = catchAsync(
   async (req: Request, res: Response) => {
+    console.log(req.body);
     const result = await academicSemesterService.insertAcademicSemester(
       req.body
     );

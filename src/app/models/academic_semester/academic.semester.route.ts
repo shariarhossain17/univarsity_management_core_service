@@ -6,9 +6,11 @@ import { AcademicSemesterValidation } from './academic.semester.zod.validation';
 const academicSemesterRouter = express.Router();
 
 academicSemesterRouter.post(
-  '/create',
+  '/',
   validateRequest(AcademicSemesterValidation.create),
   academicSemesterController.insertAcademicSemester
 );
+
+academicSemesterRouter.get('/', academicSemesterController.getAcademicSemester);
 
 export default academicSemesterRouter;

@@ -25,7 +25,6 @@ const insertAcademicSemester = catchAsync(
 );
 
 const getAcademicSemester = catchAsync(async (req: Request, res: Response) => {
-  console.log(req.query);
   const option = pick(req.query, academicSemesterFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
   const result = await academicSemesterService.getAllAcademicSemester(

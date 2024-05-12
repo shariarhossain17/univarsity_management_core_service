@@ -4,4 +4,12 @@ export const academicSemesterFilterableFields = [
   'year',
   'startMonth',
   'endMonth',
+  'searchTerm',
+];
+
+export const academicSemesterFilterableField = [
+  'title',
+  'code',
+  'startMonth',
+  'endMonth',
 ];

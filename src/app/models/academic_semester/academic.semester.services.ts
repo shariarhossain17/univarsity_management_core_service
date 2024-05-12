@@ -1,11 +1,10 @@
-import { AcademicSemester, Prisma, PrismaClient } from '@prisma/client';
+import { AcademicSemester, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helper/pagination.helper';
 import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
+import prisma from '../../../shared/prisma';
 import { IAcademicSemesterFilters } from './academic.semeter.interface';
 import { academicSemesterFilterableField } from './academis.semester.constant';
-
-const prisma = new PrismaClient();
 
 const insertAcademicSemester = async (
   semesterData: AcademicSemester
@@ -56,6 +55,14 @@ const getAllAcademicSemester = async (
     where: whereConditions,
     skip,
     take: limit,
+    orderBy:
+      paginationOptions.sortBy && paginationOptions.sortOrder
+        ? {
+            [paginationOptions.sortBy]: paginationOptions.sortOrder,
+          }
+        : {
+            createdAt: 'asc',
+          },
   });
 
   const totalCount = await prisma.academicSemester.count();

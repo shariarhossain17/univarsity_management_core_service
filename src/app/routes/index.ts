@@ -1,12 +1,17 @@
 import express from 'express';
+import academicFacultyRouter from '../models/academic_faculty/academic.faculty.route';
 import academicSemesterRouter from '../models/academic_semester/academic.semester.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/academic_semester',
+    path: '/academic-semester',
     route: academicSemesterRouter,
+  },
+  {
+    path: '/academic-faculty',
+    route: academicFacultyRouter,
   },
 ];
 

@@ -14,7 +14,7 @@ const insertAcademicSemester = catchAsync(
       req.body
     );
 
-    sendResponse<AcademicSemester>(res, {
+    sendResponse(res, {
       statusCode: httpStatus.OK,
       success: true,
       message: 'Academic semester created',

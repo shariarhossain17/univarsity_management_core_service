@@ -37,8 +37,6 @@ const getAllAcademicSemester = async (
     });
   }
 
-  console.log(filtersData);
-
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
       AND: Object.keys(filtersData).map(key => ({
@@ -77,7 +75,19 @@ const getAllAcademicSemester = async (
   };
 };
 
+const getSingleAcademicSemester = async (
+  id: string
+): Promise<AcademicSemester | null> => {
+  const result = await prisma.academicSemester.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  return result;
+};
 export const academicSemesterService = {
   insertAcademicSemester,
   getAllAcademicSemester,
+  getSingleAcademicSemester,
 };

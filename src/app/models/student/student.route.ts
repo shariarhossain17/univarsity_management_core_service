@@ -11,6 +11,8 @@ studentRouter.post(
   createStudentController.createStudent
 );
 
+studentRouter.get('/', createStudentController.getAllStudent);
+
 studentRouter.get('/:id', createStudentController.getSingleStudent);
 
 export default studentRouter;

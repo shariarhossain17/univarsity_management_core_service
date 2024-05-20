@@ -17,8 +17,15 @@ academicDepartmentRouter.get(
 );
 academicDepartmentRouter.get(
   '/:id',
-
   academicDepartmentController.getSingleAcademicDepartment
 );
-
+academicDepartmentRouter.patch(
+  '/:id',
+  validateRequest(academicDepartmentZodValidation.updateAcademicDepartment),
+  academicDepartmentController.updateAcademicDepartment
+);
+academicDepartmentRouter.delete(
+  '/:id',
+  academicDepartmentController.deleteAcademicDepartment
+);
 export default academicDepartmentRouter;

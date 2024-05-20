@@ -11,6 +11,22 @@ const createAcademicDepartment = z.object({
   }),
 });
 
+const updateAcademicDepartment = z.object({
+  body: z.object({
+    title: z
+      .string({
+        required_error: 'Title must be string',
+      })
+      .optional(),
+    academicFacultyId: z
+      .string({
+        required_error: 'academicFacultyId must be string',
+      })
+      .optional(),
+  }),
+});
+
 export const academicDepartmentZodValidation = {
   createAcademicDepartment,
+  updateAcademicDepartment,
 };

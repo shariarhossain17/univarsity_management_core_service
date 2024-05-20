@@ -8,7 +8,6 @@ import { IAcademicDepartmentFilters } from './academic.department.interface';
 const createAcademicDepartment = async (
   data: AcademicDepartment
 ): Promise<AcademicDepartment> => {
-  console.log(data);
   const result = await prisma.academicDepartment.create({
     data: data,
   });
@@ -95,11 +94,11 @@ const getSingleDepartment = async (
   return result;
 };
 
-const updateStudent = async (
+const updateAcademicDepartment = async (
   id: string,
-  payload: Partial<student>
-): Promise<student> => {
-  const result = await prisma.student.update({
+  payload: Partial<AcademicDepartment>
+): Promise<AcademicDepartment> => {
+  const result = await prisma.academicDepartment.update({
     where: {
       id,
     },
@@ -109,8 +108,10 @@ const updateStudent = async (
   return result;
 };
 
-const deleteStudent = async (id: string): Promise<student> => {
-  const result = await prisma.student.delete({
+const deleteAcademicDepartment = async (
+  id: string
+): Promise<AcademicDepartment> => {
+  const result = await prisma.academicDepartment.delete({
     where: {
       id,
     },
@@ -122,4 +123,6 @@ export const academicDepartmentService = {
   createAcademicDepartment,
   getAllDepartment,
   getSingleDepartment,
+  deleteAcademicDepartment,
+  updateAcademicDepartment,
 };

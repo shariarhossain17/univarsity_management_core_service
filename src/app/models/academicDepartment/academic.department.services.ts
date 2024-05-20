@@ -95,6 +95,29 @@ const getSingleDepartment = async (
   return result;
 };
 
+const updateStudent = async (
+  id: string,
+  payload: Partial<student>
+): Promise<student> => {
+  const result = await prisma.student.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
+
+  return result;
+};
+
+const deleteStudent = async (id: string): Promise<student> => {
+  const result = await prisma.student.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
 export const academicDepartmentService = {
   createAcademicDepartment,
   getAllDepartment,

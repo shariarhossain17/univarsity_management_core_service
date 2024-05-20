@@ -14,5 +14,11 @@ facultyRouter.post(
 facultyRouter.get('/', facultyController.getAllStudent);
 
 facultyRouter.get('/:id', facultyController.getSingleStudent);
+facultyRouter.patch(
+  '/:id',
+  validateRequest(facultyZodValidation.updateFaculty),
+  facultyController.updateFaculty
+);
+facultyRouter.delete('/:id', facultyController.deleteFaculty);
 
 export default facultyRouter;

@@ -87,11 +87,11 @@ const getSingleAcademicSemester = async (
   return result;
 };
 
-const updateStudent = async (
+const updateAcademicSemester = async (
   id: string,
-  payload: Partial<student>
-): Promise<student> => {
-  const result = await prisma.student.update({
+  payload: Partial<AcademicSemester>
+): Promise<AcademicSemester> => {
+  const result = await prisma.academicSemester.update({
     where: {
       id,
     },
@@ -101,8 +101,10 @@ const updateStudent = async (
   return result;
 };
 
-const deleteStudent = async (id: string): Promise<student> => {
-  const result = await prisma.student.delete({
+const deleteAcademicSemester = async (
+  id: string
+): Promise<AcademicSemester> => {
+  const result = await prisma.academicSemester.delete({
     where: {
       id,
     },
@@ -114,4 +116,6 @@ export const academicSemesterService = {
   insertAcademicSemester,
   getAllAcademicSemester,
   getSingleAcademicSemester,
+  deleteAcademicSemester,
+  updateAcademicSemester,
 };

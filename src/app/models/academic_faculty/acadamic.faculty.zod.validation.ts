@@ -8,6 +8,13 @@ const createAcademicFaculty = z.object({
   }),
 });
 
+const updateAcademicFaculty = z.object({
+  body: z.object({
+    title: z.string().optional(),
+  }),
+});
+
 export const AcademicFacultyValidation = {
   createAcademicFaculty,
+  updateAcademicFaculty,
 };

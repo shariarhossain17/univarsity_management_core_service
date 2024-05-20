@@ -17,4 +17,14 @@ academicSemesterRouter.get(
   academicSemesterController.getSingleSemester
 );
 
+academicSemesterRouter.patch(
+  '/:id',
+  validateRequest(AcademicSemesterValidation.update),
+  academicSemesterController.updateAcademicSemester
+);
+academicSemesterRouter.delete(
+  '/:id',
+  academicSemesterController.deleteAcademicSemester
+);
+
 export default academicSemesterRouter;

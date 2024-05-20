@@ -15,5 +15,14 @@ academicFacultyRouter.get(
   '/:id',
   academicFacultyController.getSingleAcademicFaculty
 );
+academicFacultyRouter.patch(
+  '/:id',
+  validateRequest(AcademicFacultyValidation.updateAcademicFaculty),
+  academicFacultyController.updateAcademicFaculty
+);
+academicFacultyRouter.delete(
+  '/:id',
 
+  academicFacultyController.deleteAcademicFaculty
+);
 export default academicFacultyRouter;

@@ -17,15 +17,12 @@ const getAllStudent = async (
   filters: IStudentFilerOption,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<student[]>> => {
-  console.log(paginationOptions);
   const { page, limit, skip } =
     paginationHelpers.calculatePagination(paginationOptions);
 
   const { searchTerm, ...filtersData } = filters;
 
   const andConditions = [];
-
-  console.log(searchTerm);
 
   if (searchTerm) {
     andConditions.push({
@@ -93,9 +90,33 @@ const getSingleStudent = async (id: string): Promise<student | null> => {
   });
   return result;
 };
+const updateStudent = async (
+  id: string,
+  payload: Partial<student>
+): Promise<student> => {
+  const result = await prisma.student.update({
+    where: {
+      id,
+    },
+    data: payload,
+  });
 
+  return result;
+};
+
+const deleteStudent = async (id: string): Promise<student> => {
+  const result = await prisma.student.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
 export const studentService = {
   createStudentService,
   getSingleStudent,
   getAllStudent,
+  updateStudent,
+  deleteStudent,
 };

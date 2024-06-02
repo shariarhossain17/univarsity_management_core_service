@@ -63,7 +63,7 @@ const getAllDepartment = async (
           },
 
     include: {
-      academiFaculty: true,
+      academicFaculty: true,
     },
   });
 
@@ -88,7 +88,7 @@ const getSingleDepartment = async (
       id,
     },
     include: {
-      academiFaculty: true,
+      academicFaculty: true,
     },
   });
   return result;

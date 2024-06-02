@@ -1,9 +1,12 @@
 import { Building } from '@prisma/client';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsynch';
+import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
 import { buildingService } from './building.service';
+import { buildingFilterableField } from './builiding.constant';
 
 const createBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await buildingService.createBuilding(req.body);
@@ -17,12 +20,18 @@ const createBuilding = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getAllBuilding = catchAsync(async (req: Request, res: Response) => {
-  const result = await buildingService.getAllBuilding();
+  const option = pick(req.query, buildingFilterableField);
+  const paginationOptions = pick(req.query, paginationFields);
+  const result = await buildingService.getAllBuilding(
+    option,
+    paginationOptions
+  );
   sendResponse<Building[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'building retrieve success',
-    data: result,
+    message: 'building data retrieve success',
+    meta: result.meta,
+    data: result.data,
   });
 });
 

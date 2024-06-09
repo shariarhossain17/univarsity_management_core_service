@@ -11,7 +11,7 @@ import { buildingFilterableField } from './builiding.constant';
 const createBuilding = catchAsync(async (req: Request, res: Response) => {
   const result = await buildingService.createBuilding(req.body);
 
-  sendResponse<Building>(res, {
+  sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'building create success',

@@ -1,4 +1,4 @@
-import { Prisma, student } from '@prisma/client';
+import { Prisma, Student } from '@prisma/client';
 import { paginationHelpers } from '../../../helper/pagination.helper';
 import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
@@ -6,7 +6,7 @@ import prisma from '../../../shared/prisma';
 import { studentFilterableField } from './student.constant';
 import { IStudentFilerOption } from './student.interface';
 
-const createStudentService = async (data: student): Promise<student> => {
+const createStudentService = async (data: Student): Promise<Student> => {
   const result = await prisma.student.create({
     data,
   });
@@ -16,7 +16,7 @@ const createStudentService = async (data: student): Promise<student> => {
 const getAllStudent = async (
   filters: IStudentFilerOption,
   paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<student[]>> => {
+): Promise<IGenericResponse<Student[]>> => {
   const { page, limit, skip } =
     paginationHelpers.calculatePagination(paginationOptions);
 
@@ -44,7 +44,7 @@ const getAllStudent = async (
       })),
     });
   }
-  const whereConditions: Prisma.studentWhereInput =
+  const whereConditions: Prisma.StudentWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
 
   const totalCount = await prisma.student.count();
@@ -77,7 +77,7 @@ const getAllStudent = async (
   };
 };
 
-const getSingleStudent = async (id: string): Promise<student | null> => {
+const getSingleStudent = async (id: string): Promise<Student | null> => {
   const result = await prisma.student.findUnique({
     where: {
       id,
@@ -92,8 +92,8 @@ const getSingleStudent = async (id: string): Promise<student | null> => {
 };
 const updateStudent = async (
   id: string,
-  payload: Partial<student>
-): Promise<student> => {
+  payload: Partial<Student>
+): Promise<Student> => {
   const result = await prisma.student.update({
     where: {
       id,
@@ -104,7 +104,7 @@ const updateStudent = async (
   return result;
 };
 
-const deleteStudent = async (id: string): Promise<student> => {
+const deleteStudent = async (id: string): Promise<Student> => {
   const result = await prisma.student.delete({
     where: {
       id,

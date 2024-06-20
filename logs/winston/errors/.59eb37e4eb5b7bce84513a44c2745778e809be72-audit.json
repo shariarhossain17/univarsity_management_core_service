@@ -6,16 +6,6 @@
     "auditLog": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/.59eb37e4eb5b7bce84513a44c2745778e809be72-audit.json",
     "files": [
         {
-            "date": 1717335655114,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-02-06-19-error.log",
-            "hash": "584cd7356a567c942ebed24a94ca00f9722ce24b8dee03dd5ca0aa9020991903"
-        },
-        {
-            "date": 1717337508999,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-02-06-20-error.log",
-            "hash": "4977d85aa0b3b2c71537496da28ffb93ddc34e57ee58f17b907ceae19497cff2"
-        },
-        {
             "date": 1717947116480,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-09-06-21-error.log",
             "hash": "9097cb68fbe4242a9575ba8a73a0f0dfcac8399a93182c786b2b4c244607a252"
@@ -24,6 +14,16 @@
             "date": 1717949180057,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-09-06-22-error.log",
             "hash": "64a1450cdf8b638d41fada1be8d182b581d2bd30ced66aa8d0f67ba9bb8643cd"
+        },
+        {
+            "date": 1718881507541,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-20-06-17-error.log",
+            "hash": "fa5dbb714c754cc3696f1a721a9bad57b80f4a3639b2fe2a8733a0ffb6f6d750"
+        },
+        {
+            "date": 1718884991237,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-20-06-18-error.log",
+            "hash": "33a37e97508cff1b79b915854062517f037ea1d51c6223c35405f067bfe93bb9"
         }
     ],
     "hashType": "sha256"

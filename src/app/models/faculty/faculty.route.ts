@@ -9,7 +9,7 @@ const facultyRouter = express.Router();
 
 facultyRouter.post(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(facultyZodValidation.createFaculty),
   facultyController.createFaculty
 );

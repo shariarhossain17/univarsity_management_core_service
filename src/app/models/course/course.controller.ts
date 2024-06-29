@@ -76,6 +76,31 @@ const assignCourseFaculty = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const deleteAssignCourse = catchAsync(async (req: Request, res: Response) => {
+  const result = await courseService.deleteAssignCourse(
+    req.params.id,
+    req.body.faculties
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'assign course delete success',
+    data: result,
+  });
+});
+
+const getAssignCourse = catchAsync(async (req: Request, res: Response) => {
+  const result = await courseService.getAssignCourse();
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'assign course data retrieve success',
+    data: result,
+  });
+});
+
 export const courseController = {
   createCourse,
   getAllCourse,
@@ -83,4 +108,6 @@ export const courseController = {
   updateOneInDB,
   deleteCourse,
   assignCourseFaculty,
+  deleteAssignCourse,
+  getAssignCourse,
 };

@@ -8,7 +8,7 @@ const academicFacultyRouter = express.Router();
 
 academicFacultyRouter.post(
   '/',
-  // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(AcademicFacultyValidation.createAcademicFaculty),
   academicFacultyController.createAcademicFaculty
 );

@@ -18,7 +18,10 @@ semesterRegistrationRouter.get(
   '/:id',
   semesterRegistrationController.getSingleSemesterRegistration
 );
-
+semesterRegistrationRouter.patch(
+  '/:id',
+  semesterRegistrationController.updateSemesterRegistration
+);
 semesterRegistrationRouter.delete(
   '/:id',
   semesterRegistrationController.deleteSemesterRegistration

@@ -4,8 +4,6 @@ import { IGenericErrorResponse } from '../interface/common';
 const handlePrismaError = (
   error: Prisma.PrismaClientValidationError
 ): IGenericErrorResponse => {
-  console.log('i am from prisma', error.message);
-
   const errors = [
     {
       path: '',

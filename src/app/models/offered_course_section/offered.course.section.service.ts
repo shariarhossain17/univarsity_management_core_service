@@ -26,6 +26,52 @@ const insertOfferedCourse = async (
   return result;
 };
 
+const getOfferedCourse = async (): Promise<offeredCoursesSection[]> => {
+  const result = await prisma.offeredCoursesSection.findMany({});
+
+  return result;
+};
+
+const getSingleOfferedCourse = async (
+  id: string
+): Promise<offeredCoursesSection | null> => {
+  const result = await prisma.offeredCoursesSection.findUnique({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
+
+const updateOfferedCourse = async (
+  id: string,
+  data: offeredCoursesSection
+): Promise<offeredCoursesSection> => {
+  const result = await prisma.offeredCoursesSection.update({
+    where: {
+      id: id,
+    },
+    data: data,
+  });
+  return result;
+};
+
+const deleteOfferedCourse = async (
+  id: string
+): Promise<offeredCoursesSection> => {
+  const result = await prisma.offeredCoursesSection.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const offeredCoursesSectionService = {
   insertOfferedCourse,
+  getOfferedCourse,
+  getSingleOfferedCourse,
+  updateOfferedCourse,
+  deleteOfferedCourse,
 };

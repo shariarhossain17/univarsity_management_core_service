@@ -74,7 +74,7 @@ const getOfferedCourse = async (
             [paginationOptions.sortBy]: paginationOptions.sortOrder,
           }
         : {
-            cretedAt: 'asc',
+            createdAt: 'asc',
           },
   });
 

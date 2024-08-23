@@ -5,6 +5,7 @@ import academicFacultyRouter from '../models/academic_faculty/academic.faculty.r
 import academicSemesterRouter from '../models/academic_semester/academic.semester.route';
 import courseRouter from '../models/course/course.route';
 import facultyRouter from '../models/faculty/faculty.route';
+import offeredCourseClassScheduleRouter from '../models/offeredCourseSchedule/offered.course.schedule.router';
 import offeredCoursesSectionRouter from '../models/offered_course_section/offered.course.section.route';
 import offeredCourseRouter from '../models/offered_courses/offered.courses.route';
 import roomRouter from '../models/room/room.route';
@@ -58,6 +59,10 @@ const moduleRoutes = [
   {
     path: '/offered-course-section',
     route: offeredCoursesSectionRouter,
+  },
+  {
+    path: '/offered-course-schedule',
+    route: offeredCourseClassScheduleRouter,
   },
 ];
 

@@ -12,28 +12,35 @@ const insertToDb = async (
     },
   });
 
-  const isExistSlots = isBooked.map(schedule => ({
-    startTime: schedule.startTime,
-    endTime: schedule.endTime,
-    dayOfWeek: schedule.dayOfWeek,
-  }));
+  console.log(isBooked);
 
-  const newSlots = {
+  const newDate = {
     startTime: data.startTime,
     endTime: data.endTime,
     dayOfWeek: data.dayOfWeek,
   };
 
-  for (const slot of isExistSlots) {
-    const isExistStart = new Date(`1970-01-01${slot.startTime}`);
-    const isExistEnd = new Date(`1970-01-01${slot.endTime}`);
-    const newStart = new Date(`1970-01-01${newSlots.startTime}`);
-    const newEnd = new Date(`1970-01-01${newSlots.endTime}`);
+  console.log(newDate);
 
-    console.log(isExistStart, newEnd);
+  for (const slot of isBooked) {
+    // console.log(slot.startTime, slot.endTime);
+
+    console.log('newStart', newDate.startTime, '\n', 'newEnd', newDate.endTime);
+
+    let isExistStart = new Date(`1970-01-01T${slot.startTime}:00Z`);
+    let isExistEnd = new Date(`1970-01-01T${slot.endTime}:00Z`);
+    let newStart = new Date(`1970-01-01T${newDate.startTime}:00Z`);
+    let newEnd = new Date(`1970-01-01T${newDate.endTime}:00Z`);
+
+    console.log('newStart', newStart, '\n', 'newEnd', newEnd);
+
+    console.log('isExistEnd', isExistEnd, '\n', 'isExistStart', isExistStart);
 
     if (newStart < isExistEnd && newEnd > isExistStart) {
-      throw new ApiError(httpStatus.CONFLICT, 'already booked');
+      throw new ApiError(
+        httpStatus.CONFLICT,
+        `Time slot conflict: ${data.startTime} - ${data.endTime} overlaps with existing slot ${slot.startTime} - ${slot.endTime}`
+      );
     }
   }
 

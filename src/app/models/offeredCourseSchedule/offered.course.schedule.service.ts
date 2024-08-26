@@ -15,11 +15,6 @@ const insertToDb = async (
       },
     });
 
-  // console.log(bookedSchedule(isBooked));
-  // console.log(schedule(data));
-
-  console.log(isTimeChecked(bookedSchedule(isBooked), schedule(data)));
-
   if (isTimeChecked(bookedSchedule(isBooked), schedule(data))) {
     throw new ApiError(
       httpStatus.CONFLICT,

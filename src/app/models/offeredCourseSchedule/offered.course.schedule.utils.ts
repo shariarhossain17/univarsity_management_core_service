@@ -1,7 +1,7 @@
 import { offeredCourseClassSchedule } from '@prisma/client';
-import { ISlotBooked } from './offered.course.schedule.interface';
+import { ITimeDate } from './offered.course.schedule.interface';
 
-export const schedule = (data: offeredCourseClassSchedule): ISlotBooked => {
+export const schedule = (data: offeredCourseClassSchedule): ITimeDate => {
   const newDate = {
     startTime: data.startTime,
     endTime: data.endTime,
@@ -12,7 +12,7 @@ export const schedule = (data: offeredCourseClassSchedule): ISlotBooked => {
 
 export const bookedSchedule = (
   booked: offeredCourseClassSchedule[]
-): ISlotBooked[] => {
+): ITimeDate[] => {
   const isBooked = booked.map(b => ({
     startTime: b.startTime,
     endTime: b.endTime,

@@ -2,48 +2,30 @@ import { offeredCourseClassSchedule } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/apiError';
 import prisma from '../../../shared/prisma';
+import { isTimeChecked } from '../../../shared/utils';
+import { bookedSchedule, schedule } from './offered.course.schedule.utils';
 
 const insertToDb = async (
   data: offeredCourseClassSchedule
 ): Promise<offeredCourseClassSchedule> => {
-  const isBooked = await prisma.offeredCourseClassSchedule.findMany({
-    where: {
-      dayOfWeek: data.dayOfWeek,
-    },
-  });
+  const isBooked: offeredCourseClassSchedule[] =
+    await prisma.offeredCourseClassSchedule.findMany({
+      where: {
+        dayOfWeek: data.dayOfWeek,
+      },
+    });
 
-  console.log(isBooked);
+  // console.log(bookedSchedule(isBooked));
+  // console.log(schedule(data));
 
-  const newDate = {
-    startTime: data.startTime,
-    endTime: data.endTime,
-    dayOfWeek: data.dayOfWeek,
-  };
+  console.log(isTimeChecked(bookedSchedule(isBooked), schedule(data)));
 
-  console.log(newDate);
-
-  for (const slot of isBooked) {
-    // console.log(slot.startTime, slot.endTime);
-
-    console.log('newStart', newDate.startTime, '\n', 'newEnd', newDate.endTime);
-
-    let isExistStart = new Date(`1970-01-01T${slot.startTime}:00Z`);
-    let isExistEnd = new Date(`1970-01-01T${slot.endTime}:00Z`);
-    let newStart = new Date(`1970-01-01T${newDate.startTime}:00Z`);
-    let newEnd = new Date(`1970-01-01T${newDate.endTime}:00Z`);
-
-    console.log('newStart', newStart, '\n', 'newEnd', newEnd);
-
-    console.log('isExistEnd', isExistEnd, '\n', 'isExistStart', isExistStart);
-
-    if (newStart < isExistEnd && newEnd > isExistStart) {
-      throw new ApiError(
-        httpStatus.CONFLICT,
-        `Time slot conflict: ${data.startTime} - ${data.endTime} overlaps with existing slot ${slot.startTime} - ${slot.endTime}`
-      );
-    }
+  if (isTimeChecked(bookedSchedule(isBooked), schedule(data))) {
+    throw new ApiError(
+      httpStatus.CONFLICT,
+      `Time slot conflict: overlaps with existing slot `
+    );
   }
-
   const result = await prisma.offeredCourseClassSchedule.create({
     data,
   });

@@ -10,6 +10,9 @@ export const checkTimeScheduleAvailable = async (
   const booked = await prisma.offeredCourseClassSchedule.findMany({
     where: {
       dayOfWeek: data.dayOfWeek,
+      room: {
+        id: data.roomId,
+      },
     },
   });
 
@@ -33,6 +36,35 @@ export const checkTimeScheduleAvailable = async (
   }
 };
 
+const facultyAvailabilityChecked = async (data: offeredCourseClassSchedule) => {
+  const booked = await prisma.offeredCourseClassSchedule.findMany({
+    where: {
+      dayOfWeek: data.dayOfWeek,
+      faculty: {
+        id: data.facultyId,
+      },
+    },
+  });
+  const newDate = {
+    startTime: data.startTime,
+    endTime: data.endTime,
+    dayOfWeek: data.dayOfWeek,
+  };
+
+  const isBooked = booked.map(b => ({
+    startTime: b.startTime,
+    endTime: b.endTime,
+    dayOfWeek: b.dayOfWeek,
+  }));
+
+  if (isTimeChecked(isBooked, newDate)) {
+    throw new ApiError(httpStatus.CONFLICT, `faculty already booked `);
+  }
+
+  console.log(facultyAvailabilityChecked);
+};
+
 export const offeredCourseClassScheduleUtils = {
   checkTimeScheduleAvailable,
+  facultyAvailabilityChecked,
 };

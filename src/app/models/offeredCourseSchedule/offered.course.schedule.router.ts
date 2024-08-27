@@ -8,4 +8,9 @@ offeredCourseClassScheduleRouter.post(
   offeredCourseClassScheduleController.insertDataToDb
 );
 
+offeredCourseClassScheduleRouter.get(
+  '/',
+  offeredCourseClassScheduleController.getallData
+);
+
 export default offeredCourseClassScheduleRouter;

@@ -1,0 +1,1 @@
+export const offeredCorseClassScheduleSearch = ['dayOfWeek'];

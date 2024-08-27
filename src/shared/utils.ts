@@ -1,5 +1,3 @@
-import { ITimeDate } from '../app/models/offeredCourseSchedule/offered.course.schedule.interface';
-
 export const asyncForEach = async (array: any[], callback: any) => {
   if (!Array.isArray(array)) {
     throw new Error('Expected an array');
@@ -10,8 +8,16 @@ export const asyncForEach = async (array: any[], callback: any) => {
 };
 
 export const isTimeChecked = (
-  isBooked: ITimeDate[],
-  newDate: ITimeDate
+  isBooked: {
+    startTime: string;
+    endTime: string;
+    dayOfWeek?: string;
+  }[],
+  newDate: {
+    startTime: string;
+    endTime: string;
+    dayOfWeek?: string;
+  }
 ): boolean => {
   for (const slot of isBooked) {
     let isExistStart = new Date(`1970-01-01T${slot.startTime}:00Z`);

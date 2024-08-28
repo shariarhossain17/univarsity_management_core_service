@@ -4,6 +4,7 @@ import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsynch';
 import pick from '../../../shared/pick';
 import sendResponse from '../../../shared/sendResponse';
+import { offeredCourseClassScheduleFilter } from './offered.course.class.schedule.constant';
 import { offeredCourseClassScheduleService } from './offered.course.schedule.service';
 
 const insertDataToDb = catchAsync(async (req: Request, res: Response) => {
@@ -18,7 +19,7 @@ const insertDataToDb = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getallData = catchAsync(async (req: Request, res: Response) => {
-  const filterableField = pick(req.query, []);
+  const filterableField = pick(req.query, offeredCourseClassScheduleFilter);
   const pagination = pick(req.query, paginationFields);
   const result = await offeredCourseClassScheduleService.getAllData(
     filterableField,

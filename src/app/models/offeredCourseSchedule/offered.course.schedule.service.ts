@@ -33,6 +33,8 @@ const getAllData = async (
 
   const { searchTerm, ...filterData } = filter;
 
+  console.log(searchTerm);
+
   const andConditions: any[] = [];
   if (searchTerm) {
     andConditions.push({
@@ -45,7 +47,6 @@ const getAllData = async (
     });
   }
 
-  // Handling additional filter data
   if (Object.keys(filterData).length > 0) {
     andConditions.push({
       AND: Object.keys(filterData).map(key => {

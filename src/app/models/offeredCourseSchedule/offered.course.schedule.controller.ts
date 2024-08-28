@@ -20,7 +20,7 @@ const insertDataToDb = catchAsync(async (req: Request, res: Response) => {
 const getallData = catchAsync(async (req: Request, res: Response) => {
   const filterableField = pick(req.query, []);
   const pagination = pick(req.query, paginationFields);
-  const result = await offeredCourseClassScheduleService.getallData(
+  const result = await offeredCourseClassScheduleService.getAllData(
     filterableField,
     pagination
   );
@@ -29,7 +29,8 @@ const getallData = catchAsync(async (req: Request, res: Response) => {
     success: true,
     statusCode: httpStatus.OK,
     message: 'data retrieve success',
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

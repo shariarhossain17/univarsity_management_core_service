@@ -75,10 +75,18 @@ const updateSemesterRegistration = catchAsync(
     });
   }
 );
+
+const startStudentRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    console.log(req.user);
+  }
+);
+
 export const semesterRegistrationController = {
   createSemesterRegistration,
   deleteSemesterRegistration,
   getAllSemesterRegistration,
   getSingleSemesterRegistration,
   updateSemesterRegistration,
+  startStudentRegistration,
 };

@@ -55,25 +55,26 @@ model AcademicDepartment {
 }
 
 model Student {
-  id                   String             @id @default(uuid())
-  facultyId            String
-  firstName            String
-  lastName             String
-  middleName           String
-  profileImage         String
-  email                String
-  contactNo            String
-  gender               String
-  bloodGroup           String
-  designation          String
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
-  academicSemesterId   String
-  academicSemester     AcademicSemester   @relation(fields: [academicSemesterId], references: [id])
-  academicDepartmentId String
-  academicDepartment   AcademicDepartment @relation(fields: [academicDepartmentId], references: [id])
-  academicFacultyId    String
-  academicFaculty      AcademicFaculty    @relation(fields: [academicFacultyId], references: [id])
+  id                          String                        @id @default(uuid())
+  studentId                   String
+  firstName                   String
+  lastName                    String
+  middleName                  String
+  profileImage                String
+  email                       String
+  contactNo                   String
+  gender                      String
+  bloodGroup                  String
+  designation                 String
+  createdAt                   DateTime                      @default(now())
+  updatedAt                   DateTime                      @updatedAt
+  academicSemesterId          String
+  academicSemester            AcademicSemester              @relation(fields: [academicSemesterId], references: [id])
+  academicDepartmentId        String
+  academicDepartment          AcademicDepartment            @relation(fields: [academicDepartmentId], references: [id])
+  academicFacultyId           String
+  academicFaculty             AcademicFaculty               @relation(fields: [academicFacultyId], references: [id])
+  studnetSemesterRegistration studnetSemesterRegistration[]
 
   @@map("students")
 }
@@ -171,10 +172,11 @@ model semesterRegistration {
   updatedAt         DateTime                   @updatedAt
   acadmicSemesterId String
 
-  academicSemester           AcademicSemester             @relation(fields: [acadmicSemesterId], references: [id])
-  offerdCourses              offeredCourse[]
-  offeredCoursesSections     offeredCoursesSection[]
-  offeredCourseClassSchedule offeredCourseClassSchedule[]
+  academicSemester            AcademicSemester              @relation(fields: [acadmicSemesterId], references: [id])
+  offerdCourses               offeredCourse[]
+  offeredCoursesSections      offeredCoursesSection[]
+  offeredCourseClassSchedule  offeredCourseClassSchedule[]
+  studnetSemesterRegistration studnetSemesterRegistration[]
 }
 
 model offeredCourse {
@@ -231,6 +233,21 @@ model offeredCourseClassSchedule {
   faculty                Faculty               @relation(fields: [facultyId], references: [id])
 
   @@map("offeredcourseclasschedule")
+}
+
+model studnetSemesterRegistration {
+  id               String   @id @default(uuid())
+  isConfirmed      Boolean?
+  totalCreditTaken Int?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  studentId              String
+  student                Student              @relation(fields: [studentId], references: [id])
+  semesterRegistrationId String
+  semesterRegistration   semesterRegistration @relation(fields: [semesterRegistrationId], references: [id])
+
+  @@map("student_semester_registration")
 }
 
 enum semesterRegistrationStatus {

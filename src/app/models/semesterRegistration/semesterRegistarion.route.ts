@@ -1,4 +1,6 @@
 import express from 'express';
+import { ENUM_USER_ROLE } from '../../../enums/user';
+import auth from '../../../middlewares/auth';
 import validateRequest from '../../../middlewares/validateRequest';
 import { semesterRegistrationController } from './semesterRegistration.controller';
 import { semesterRegistrationZodValidation } from './semesterRegistration.zod.validation';
@@ -10,6 +12,12 @@ semesterRegistrationRouter.post(
   validateRequest(semesterRegistrationZodValidation.semesterRegistration),
   semesterRegistrationController.createSemesterRegistration
 );
+semesterRegistrationRouter.post(
+  '/student-registration',
+  auth(ENUM_USER_ROLE.STUDENT),
+  semesterRegistrationController.startStudentRegistration
+);
+
 semesterRegistrationRouter.get(
   '/',
   semesterRegistrationController.getAllSemesterRegistration

@@ -8,7 +8,7 @@ const createStudent = z.object({
     middleName: z.string({ required_error: 'middleName is required' }),
     profileImage: z.string({ required_error: 'profileImage is required' }),
     email: z.string({ required_error: 'email is required' }),
-    contacNo: z.string({ required_error: 'contactNo is required' }),
+    contactNo: z.string({ required_error: 'contactNo is required' }),
     gender: z.string({ required_error: 'gender is required' }),
     bloodGroup: z.string({ required_error: 'bloodGroup is required' }),
     designation: z.string({ required_error: 'designation is required' }),

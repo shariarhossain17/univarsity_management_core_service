@@ -6,21 +6,6 @@
     "auditLog": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/.e5fc711ff230ed431b79f78c10514f66338d2935-audit.json",
     "files": [
         {
-            "date": 1724174777668,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-20-08-23-success.log",
-            "hash": "3b373c8af3ef53ff6b6e057cde981ae749ccd9e2f48031c389f15e5dcf6766e9"
-        },
-        {
-            "date": 1724176960806,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-21-08-00-success.log",
-            "hash": "167ba3b675359a70ccdbad0cb2555b75ac27b6c31cd880f91b5f2635c02d0d58"
-        },
-        {
-            "date": 1724322615611,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-22-08-16-success.log",
-            "hash": "bd7d2f14bea09f6d9919a1c6cd903cc2c22b1ea8f707ad103de5996e94146b89"
-        },
-        {
             "date": 1724407431308,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-23-08-16-success.log",
             "hash": "91dbd11dab73a69636109d9e2b015f9e2dd25da132aa6c5e1a48ef4a38a6c33a"
@@ -94,6 +79,26 @@
             "date": 1725103182515,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-31-08-17-success.log",
             "hash": "23df833a98d28042686af79fb39427b6619540255ef8b7e0c9c255d11730bc58"
+        },
+        {
+            "date": 1725470438767,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-04-09-23-success.log",
+            "hash": "eff3f34b2226f4c8215a489848762cc1dbb34d444ab9f66cbdc467e998148efc"
+        },
+        {
+            "date": 1725514066620,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-05-09-11-success.log",
+            "hash": "b1483ed56ec30b16071701241b2804ad7e585d9b336f41afbec44b1ba678c3c5"
+        },
+        {
+            "date": 1725532268838,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-05-09-16-success.log",
+            "hash": "02d73e903de174612bd59e76fd646071d63d37904a331716a2f7af58fc26ec92"
+        },
+        {
+            "date": 1725534025735,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-05-09-17-success.log",
+            "hash": "8e4c3b5838bc2cb528acc0360660aa57cf732f47a4425bbddf8876d2d87625aa"
         }
     ],
     "hashType": "sha256"

@@ -78,7 +78,17 @@ const updateSemesterRegistration = catchAsync(
 
 const startStudentRegistration = catchAsync(
   async (req: Request, res: Response) => {
-    console.log(req.user);
+    const user = req.user;
+    const result = await semesterRegistrationService.startMyRegistration(
+      user.userId
+    );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'student registration completed ',
+      data: result,
+    });
   }
 );
 

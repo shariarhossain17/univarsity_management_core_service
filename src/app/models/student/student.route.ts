@@ -9,7 +9,7 @@ const studentRouter = express.Router();
 
 studentRouter.post(
   '/',
-  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
+  // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(studentZodValidation.createStudent),
   createStudentController.createStudent
 );

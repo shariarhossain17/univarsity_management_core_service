@@ -237,8 +237,8 @@ model offeredCourseClassSchedule {
 
 model studnetSemesterRegistration {
   id               String   @id @default(uuid())
-  isConfirmed      Boolean?
-  totalCreditTaken Int?
+  isConfirmed      Boolean? @default(false)
+  totalCreditTaken Int?     @default(0)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 

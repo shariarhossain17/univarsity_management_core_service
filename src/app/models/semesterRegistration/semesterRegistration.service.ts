@@ -1,6 +1,7 @@
 import {
   semesterRegistration,
   semesterRegistrationStatus,
+  studnetSemesterRegistration,
 } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/apiError';
@@ -115,10 +116,79 @@ const updateSemesterRegistration = async (
 
   return result;
 };
+
+const startMyRegistration = async (
+  authUserId: string
+): Promise<{
+  semesterRegistration: semesterRegistration | null;
+  studentRegistration: studnetSemesterRegistration | null;
+}> => {
+  const studentInfo = await prisma.student.findFirst({
+    where: {
+      studentId: authUserId,
+    },
+  });
+
+  if (!studentInfo) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'student info not found');
+  }
+
+  const semesterRegistrationInfo = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: {
+        in: [
+          semesterRegistrationStatus.ONGOING,
+          semesterRegistrationStatus.UPCOMING,
+        ],
+      },
+    },
+  });
+
+  if (
+    semesterRegistrationInfo?.status === semesterRegistrationStatus.UPCOMING
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Registration is not started yet'
+    );
+  }
+
+  let studentRegistration = await prisma.studnetSemesterRegistration.findFirst({
+    where: {
+      student: {
+        id: studentInfo?.id,
+      },
+      semesterRegistration: {
+        id: semesterRegistrationInfo?.id,
+      },
+    },
+  });
+  if (!studentRegistration) {
+    studentRegistration = await prisma.studnetSemesterRegistration.create({
+      data: {
+        student: {
+          connect: {
+            id: studentInfo?.id,
+          },
+        },
+        semesterRegistration: {
+          connect: {
+            id: semesterRegistrationInfo?.id,
+          },
+        },
+      },
+    });
+  }
+  return {
+    semesterRegistration: semesterRegistrationInfo,
+    studentRegistration: studentRegistration,
+  };
+};
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
   getAllSemesterRegistration,
   getSingleSemesterRegistration,
   updateSemesterRegistration,
+  startMyRegistration,
 };

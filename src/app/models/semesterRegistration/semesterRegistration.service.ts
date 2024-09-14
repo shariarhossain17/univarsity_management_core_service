@@ -198,33 +198,66 @@ const studentSemesterRegistrationCourse = async (
     },
   });
 
-  if (!student) {
-    throw new ApiError(404, 'student not found');
-  }
-
   const semesterRegistration = await prisma.semesterRegistration.findFirst({
     where: {
       status: semesterRegistrationStatus.ONGOING,
     },
   });
 
-  if (!semesterRegistration) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'semesterRegistration not found'
-    );
-  }
-
-  const enrollCourse = await prisma.studentSemesterRegistrationCourese.create({
-    data: {
-      studentId: student?.id,
-      semesterRegistrationId: semesterRegistration?.id,
-      offeredCourseId: payload?.offeredCourseId,
-      offeredCourseSectionId: payload?.offeredCourseSectionId,
+  const offeredCourse = await prisma.offeredCourse.findFirst({
+    where: {
+      id: payload.offeredCourseId,
     },
   });
 
-  return enrollCourse;
+  const offeredCourseSection = await prisma.offeredCoursesSection.findFirst({
+    where: {
+      id: payload.offeredCourseSectionId,
+    },
+  });
+
+  if (!student) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'student not found');
+  }
+
+  if (!semesterRegistration) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'semesterRegistration not found');
+  }
+
+  if (!offeredCourse) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'offeredCourse not found');
+  }
+
+  if (!offeredCourseSection) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'offered course section not found'
+    );
+  }
+
+  await prisma.$transaction(async transaction => {
+    await transaction.studentSemesterRegistrationCourese.create({
+      data: {
+        studentId: student?.id,
+        semesterRegistrationId: semesterRegistration?.id,
+        offeredCourseId: payload?.offeredCourseId,
+        offeredCourseSectionId: payload?.offeredCourseSectionId,
+      },
+    });
+
+    await transaction.offeredCoursesSection.update({
+      where: {
+        id: payload.offeredCourseSectionId,
+      },
+      data: {
+        currnetEnrolment: {
+          increment: 1,
+        },
+      },
+    });
+  });
+
+  return {};
 };
 export const semesterRegistrationService = {
   insertToDb,

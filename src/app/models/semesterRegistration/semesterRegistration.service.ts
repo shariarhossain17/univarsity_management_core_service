@@ -184,6 +184,48 @@ const startMyRegistration = async (
     studentRegistration: studentRegistration,
   };
 };
+
+const studentSemesterRegistrationCourse = async (
+  userId: string,
+  payload: {
+    offeredCourseId: string;
+    offeredCourseSectionId: string;
+  }
+) => {
+  const student = await prisma.student.findFirst({
+    where: {
+      studentId: userId,
+    },
+  });
+
+  if (!student) {
+    throw new ApiError(404, 'student not found');
+  }
+
+  const semesterRegistration = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: semesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  if (!semesterRegistration) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'semesterRegistration not found'
+    );
+  }
+
+  const enrollCourse = await prisma.studentSemesterRegistrationCourese.create({
+    data: {
+      studentId: student?.id,
+      semesterRegistrationId: semesterRegistration?.id,
+      offeredCourseId: payload?.offeredCourseId,
+      offeredCourseSectionId: payload?.offeredCourseSectionId,
+    },
+  });
+
+  return enrollCourse;
+};
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
@@ -191,4 +233,5 @@ export const semesterRegistrationService = {
   getSingleSemesterRegistration,
   updateSemesterRegistration,
   startMyRegistration,
+  studentSemesterRegistrationCourse,
 };

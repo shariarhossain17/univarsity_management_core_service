@@ -255,7 +255,6 @@ model studnetSemesterRegistration {
 }
 
 model studentSemesterRegistrationCourese {
-  id                     String               @id @default(uuid())
   semesterRegistrationId String
   semesterRegistration   semesterRegistration @relation(fields: [semesterRegistrationId], references: [id])
 
@@ -263,12 +262,15 @@ model studentSemesterRegistrationCourese {
   student   Student @relation(fields: [studentId], references: [id])
 
   offeredCourseId String
-
-  offeredCoures offeredCourse @relation(fields: [offeredCourseId], references: [id])
+  offeredCoures   offeredCourse @relation(fields: [offeredCourseId], references: [id])
 
   offeredCourseSectionId String
+  offeredCourseSection   offeredCoursesSection @relation(fields: [offeredCourseSectionId], references: [id])
+  createdAt              DateTime              @default(now())
+  updatedAt              DateTime              @updatedAt
 
-  offeredCourseSection offeredCoursesSection @relation(fields: [offeredCourseSectionId], references: [id])
+  @@id([semesterRegistrationId, studentId, offeredCourseId])
+  @@map("student_semester_registration_courses")
 }
 
 enum semesterRegistrationStatus {

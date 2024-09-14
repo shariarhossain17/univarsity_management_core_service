@@ -92,6 +92,25 @@ const startStudentRegistration = catchAsync(
   }
 );
 
+const studentSemesterRegistrationCourse = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req?.user?.userId;
+
+    const result =
+      await semesterRegistrationService.studentSemesterRegistrationCourse(
+        userId,
+        req.body
+      );
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'student registration enroll ',
+      data: result,
+    });
+  }
+);
+
 export const semesterRegistrationController = {
   createSemesterRegistration,
   deleteSemesterRegistration,
@@ -99,4 +118,5 @@ export const semesterRegistrationController = {
   getSingleSemesterRegistration,
   updateSemesterRegistration,
   startStudentRegistration,
+  studentSemesterRegistrationCourse,
 };

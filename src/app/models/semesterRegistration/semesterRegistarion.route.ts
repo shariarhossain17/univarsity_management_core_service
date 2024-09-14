@@ -17,7 +17,11 @@ semesterRegistrationRouter.post(
   auth(ENUM_USER_ROLE.STUDENT),
   semesterRegistrationController.startStudentRegistration
 );
-
+semesterRegistrationRouter.post(
+  '/student-enroll',
+  auth(ENUM_USER_ROLE.STUDENT),
+  semesterRegistrationController.studentSemesterRegistrationCourse
+);
 semesterRegistrationRouter.get(
   '/',
   semesterRegistrationController.getAllSemesterRegistration

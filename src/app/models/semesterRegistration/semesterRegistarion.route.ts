@@ -22,6 +22,11 @@ semesterRegistrationRouter.post(
   auth(ENUM_USER_ROLE.STUDENT),
   semesterRegistrationController.studentSemesterRegistrationCourse
 );
+semesterRegistrationRouter.post(
+  '/withdraw-course',
+  auth(ENUM_USER_ROLE.STUDENT),
+  semesterRegistrationController.withdrawCourse
+);
 semesterRegistrationRouter.get(
   '/',
   semesterRegistrationController.getAllSemesterRegistration

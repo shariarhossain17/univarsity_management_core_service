@@ -111,6 +111,22 @@ const studentSemesterRegistrationCourse = catchAsync(
   }
 );
 
+const withdrawCourse = catchAsync(async (req: Request, res: Response) => {
+  const userId = req?.user?.userId;
+
+  const result = await semesterRegistrationService.withdrawCourse(
+    userId,
+    req.body
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'success ',
+    data: result,
+  });
+});
+
 export const semesterRegistrationController = {
   createSemesterRegistration,
   deleteSemesterRegistration,
@@ -119,4 +135,5 @@ export const semesterRegistrationController = {
   updateSemesterRegistration,
   startStudentRegistration,
   studentSemesterRegistrationCourse,
+  withdrawCourse,
 };

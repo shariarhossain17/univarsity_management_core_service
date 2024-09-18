@@ -19,12 +19,15 @@ semesterRegistrationRouter.post(
 );
 semesterRegistrationRouter.post(
   '/student-enroll',
+  validateRequest(semesterRegistrationZodValidation.coursesEnrollWithdraw),
   auth(ENUM_USER_ROLE.STUDENT),
   semesterRegistrationController.studentSemesterRegistrationCourse
 );
 semesterRegistrationRouter.post(
   '/withdraw-course',
+  validateRequest(semesterRegistrationZodValidation.coursesEnrollWithdraw),
   auth(ENUM_USER_ROLE.STUDENT),
+
   semesterRegistrationController.withdrawCourse
 );
 semesterRegistrationRouter.get(

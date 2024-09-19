@@ -293,7 +293,7 @@ const withdrawCourse = async (
     offeredCourseId: string;
     offeredCourseSectionId: string;
   }
-) => {
+): Promise<string> => {
   const student = await prisma.student.findFirst({
     where: {
       studentId: userId,
@@ -326,8 +326,6 @@ const withdrawCourse = async (
   if (!offeredCourse) {
     throw new ApiError(httpStatus.NOT_FOUND, 'offeredCourse not found');
   }
-
-  console.log(offeredCourse.id);
 
   await prisma.$transaction(async transaction => {
     await transaction.studentSemesterRegistrationCourese.delete({
@@ -371,6 +369,60 @@ const withdrawCourse = async (
   return 'course registration successfully ';
 };
 
+const confirmMyCourse = async (userId: string) => {
+  const semesterRegistration = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: semesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  const studentSemesterRegistration =
+    await prisma.studnetSemesterRegistration.findFirst({
+      where: {
+        student: {
+          studentId: userId,
+        },
+        semesterRegistration: {
+          id: semesterRegistration?.id,
+        },
+      },
+    });
+
+  if (!startMyRegistration) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'no registration yet');
+  }
+
+  if (studentSemesterRegistration?.totalCreditTaken == 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'you are not enroll any course');
+  }
+
+  if (
+    studentSemesterRegistration?.totalCreditTaken &&
+    semesterRegistration?.maxCredit &&
+    semesterRegistration.minCredit &&
+    studentSemesterRegistration?.totalCreditTaken >
+      semesterRegistration?.maxCredit &&
+    studentSemesterRegistration?.totalCreditTaken <
+      semesterRegistration?.minCredit
+  ) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `${semesterRegistration.minCredit} to ${semesterRegistration.maxCredit}`
+    );
+  }
+
+  await prisma.studnetSemesterRegistration.update({
+    where: {
+      id: studentSemesterRegistration?.id,
+    },
+    data: {
+      isConfirmed: true,
+    },
+  });
+
+  return 'course confirm success';
+};
+
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
@@ -380,4 +432,5 @@ export const semesterRegistrationService = {
   startMyRegistration,
   studentSemesterRegistrationCourse,
   withdrawCourse,
+  confirmMyCourse,
 };

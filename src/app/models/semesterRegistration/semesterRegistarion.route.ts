@@ -24,6 +24,11 @@ semesterRegistrationRouter.post(
   semesterRegistrationController.studentSemesterRegistrationCourse
 );
 semesterRegistrationRouter.post(
+  '/confirm-course',
+  auth(ENUM_USER_ROLE.STUDENT),
+  semesterRegistrationController.confirmMyCourse
+);
+semesterRegistrationRouter.post(
   '/withdraw-course',
   validateRequest(semesterRegistrationZodValidation.coursesEnrollWithdraw),
   auth(ENUM_USER_ROLE.STUDENT),

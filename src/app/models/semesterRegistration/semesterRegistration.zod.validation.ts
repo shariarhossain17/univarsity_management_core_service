@@ -14,7 +14,7 @@ const semesterRegistration = z.object({
 
 const coursesEnrollWithdraw = z.object({
   body: z.object({
-    oofferedCourseId: z.string({
+    offeredCourseId: z.string({
       required_error: 'offered course id required',
     }),
     offeredCourseSectionId: z.string({

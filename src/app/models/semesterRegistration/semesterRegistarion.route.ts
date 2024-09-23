@@ -40,6 +40,11 @@ semesterRegistrationRouter.get(
   semesterRegistrationController.getAllSemesterRegistration
 );
 semesterRegistrationRouter.get(
+  '/get-my-course',
+  auth(ENUM_USER_ROLE.STUDENT),
+  semesterRegistrationController.getMyCourse
+);
+semesterRegistrationRouter.get(
   '/:id',
   semesterRegistrationController.getSingleSemesterRegistration
 );

@@ -369,7 +369,7 @@ const withdrawCourse = async (
   return 'course registration successfully ';
 };
 
-const confirmMyCourse = async (userId: string) => {
+const confirmMyCourse = async (userId: string): Promise<string> => {
   const semesterRegistration = await prisma.semesterRegistration.findFirst({
     where: {
       status: semesterRegistrationStatus.ONGOING,
@@ -423,6 +423,31 @@ const confirmMyCourse = async (userId: string) => {
   return 'course confirm success';
 };
 
+const getMyCourse = async (userId: string) => {
+  const semesterRegistration = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: semesterRegistrationStatus.ONGOING,
+    },
+  });
+
+  const studnetSemesterRegistration =
+    await prisma.studnetSemesterRegistration.findFirst({
+      where: {
+        semesterRegistration: {
+          id: semesterRegistration?.id,
+        },
+        student: {
+          studentId: userId,
+        },
+      },
+      include: {
+        semesterRegistration: true,
+        student: true,
+      },
+    });
+
+  return studnetSemesterRegistration;
+};
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
@@ -433,4 +458,5 @@ export const semesterRegistrationService = {
   studentSemesterRegistrationCourse,
   withdrawCourse,
   confirmMyCourse,
+  getMyCourse,
 };

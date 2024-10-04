@@ -459,7 +459,43 @@ const startMyCourse = async (id: string) => {
     },
   });
 
-  console.log(semester);
+  if (!semester) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'semester not found');
+  }
+
+  if (semester.status != semesterRegistrationStatus.ENDED) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'semester registration is not ended yet'
+    );
+  }
+
+  if (semester.academicSemester.isStart) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
+  }
+
+  await prisma.$transaction(async transaction => {
+    await transaction.academicSemester.updateMany({
+      where: {
+        isStart: true,
+      },
+
+      data: {
+        isStart: false,
+      },
+    });
+
+    await transaction.academicSemester.update({
+      where: {
+        id: semester.academicSemester.id,
+      },
+      data: {
+        isStart: true,
+      },
+    });
+  });
+
+  return 'semester start successfully';
 };
 export const semesterRegistrationService = {
   insertToDb,

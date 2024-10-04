@@ -18,6 +18,7 @@ model AcademicSemester {
   year                  Int
   title                 String
   code                  String
+  isStart               Boolean?               @default(false)
   startMonth            String
   endMonth              String
   createdAt             DateTime               @default(now())

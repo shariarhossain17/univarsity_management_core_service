@@ -32,8 +32,11 @@ semesterRegistrationRouter.post(
   '/withdraw-course',
   validateRequest(semesterRegistrationZodValidation.coursesEnrollWithdraw),
   auth(ENUM_USER_ROLE.STUDENT),
-
   semesterRegistrationController.withdrawCourse
+);
+semesterRegistrationRouter.post(
+  '/:id/start-new-semester',
+  semesterRegistrationController.startMyCourse
 );
 semesterRegistrationRouter.get(
   '/',

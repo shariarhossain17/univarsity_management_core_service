@@ -448,6 +448,19 @@ const getMyCourse = async (userId: string) => {
 
   return studnetSemesterRegistration;
 };
+
+const startMyCourse = async (id: string) => {
+  const semester = await prisma.semesterRegistration.findFirst({
+    where: {
+      id: id,
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  console.log(semester);
+};
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
@@ -459,4 +472,6 @@ export const semesterRegistrationService = {
   withdrawCourse,
   confirmMyCourse,
   getMyCourse,
+
+  startMyCourse,
 };

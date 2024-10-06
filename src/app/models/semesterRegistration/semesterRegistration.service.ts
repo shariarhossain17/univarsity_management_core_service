@@ -463,16 +463,16 @@ const startMyCourse = async (id: string) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'semester not found');
   }
 
-  if (semester.status != semesterRegistrationStatus.ENDED) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'semester registration is not ended yet'
-    );
-  }
+  // if (semester.status != semesterRegistrationStatus.ENDED) {
+  //   throw new ApiError(
+  //     httpStatus.BAD_REQUEST,
+  //     'semester registration is not ended yet'
+  //   );
+  // }
 
-  if (semester.academicSemester.isStart) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
-  }
+  // if (semester.academicSemester.isStart) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
+  // }
 
   await prisma.$transaction(async transaction => {
     await transaction.academicSemester.updateMany({
@@ -493,6 +493,18 @@ const startMyCourse = async (id: string) => {
         isStart: true,
       },
     });
+
+    const studentSemesterRegistration =
+      await transaction.studnetSemesterRegistration.findMany({
+        where: {
+          semesterRegistration: {
+            id,
+          },
+          isConfirmed: true,
+        },
+      });
+
+    console.log(studentSemesterRegistration);
   });
 
   return 'semester start successfully';

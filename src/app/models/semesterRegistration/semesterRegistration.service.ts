@@ -6,6 +6,7 @@ import {
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/apiError';
 import prisma from '../../../shared/prisma';
+import { asyncForEach } from '../../../shared/utils';
 
 const insertToDb = async (
   payload: semesterRegistration
@@ -504,7 +505,35 @@ const startMyCourse = async (id: string) => {
         },
       });
 
-    console.log(studentSemesterRegistration);
+    // console.log(studentSemesterRegistration);
+
+    asyncForEach(
+      studentSemesterRegistration,
+      async (studentSemReg: studnetSemesterRegistration) => {
+        // console.log(id);
+        const studentSemesterRegistrationCourses =
+          await prisma.studentSemesterRegistrationCourese.findMany({
+            where: {
+              semesterRegistration: {
+                id,
+              },
+              student: {
+                id: studentSemReg.studentId,
+              },
+            },
+            include: {
+              semesterRegistration: true,
+              student: true,
+              offeredCoures: true,
+              offeredCourseSection: true,
+            },
+          });
+
+        console.log(studentSemesterRegistrationCourses);
+      }
+    );
+
+    // tomorrow complete this task
   });
 
   return 'semester start successfully';

@@ -1,6 +1,9 @@
 import {
+  Course,
+  offeredCourse,
   semesterRegistration,
   semesterRegistrationStatus,
+  studentSemesterRegistrationCourese,
   studnetSemesterRegistration,
 } from '@prisma/client';
 import httpStatus from 'http-status';
@@ -509,7 +512,7 @@ const startMyCourse = async (id: string) => {
       studentSemesterRegistration,
       async (studentSemReg: studnetSemesterRegistration) => {
         const studentSemesterRegistrationCourses =
-          await prisma.studentSemesterRegistrationCourese.findMany({
+          await transaction.studentSemesterRegistrationCourese.findMany({
             where: {
               semesterRegistration: {
                 id,
@@ -527,7 +530,26 @@ const startMyCourse = async (id: string) => {
             },
           });
 
-        console.log(studentSemesterRegistrationCourses);
+        asyncForEach(
+          studentSemesterRegistrationCourses,
+          async (
+            item: studentSemesterRegistrationCourese & {
+              offeredCoures: offeredCourse & {
+                Courses: Course;
+              };
+            }
+          ) => {
+            const enrollCourseData = {
+              studentId: item.studentId,
+              courseId: item.offeredCoures.courseId,
+              academicSemesterId: semester.acadmicSemesterId,
+            };
+
+            await transaction.studentEnrollCourse.create({
+              data: enrollCourseData,
+            });
+          }
+        );
       }
     );
   });

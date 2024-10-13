@@ -505,12 +505,9 @@ const startMyCourse = async (id: string) => {
         },
       });
 
-    // console.log(studentSemesterRegistration);
-
     asyncForEach(
       studentSemesterRegistration,
       async (studentSemReg: studnetSemesterRegistration) => {
-        // console.log(id);
         const studentSemesterRegistrationCourses =
           await prisma.studentSemesterRegistrationCourese.findMany({
             where: {
@@ -522,18 +519,17 @@ const startMyCourse = async (id: string) => {
               },
             },
             include: {
-              semesterRegistration: true,
-              student: true,
-              offeredCoures: true,
-              offeredCourseSection: true,
+              offeredCoures: {
+                include: {
+                  Courses: true,
+                },
+              },
             },
           });
 
         console.log(studentSemesterRegistrationCourses);
       }
     );
-
-    // tomorrow complete this task
   });
 
   return 'semester start successfully';

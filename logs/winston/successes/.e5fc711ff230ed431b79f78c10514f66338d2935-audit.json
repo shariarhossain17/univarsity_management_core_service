@@ -49,6 +49,11 @@
             "date": 1728909045741,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-14-10-18-success.log",
             "hash": "a15a3a4590122bfe31f7e7f7851e25dec7765eda49a6b7ffbab5349fa2714612"
+        },
+        {
+            "date": 1728911770703,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-14-10-19-success.log",
+            "hash": "32b2775d512bcfad8c8c8dda49dbacfd3ddc71aa0de513cc8314fd2b01f2b3b5"
         }
     ],
     "hashType": "sha256"

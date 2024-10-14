@@ -579,6 +579,5 @@ export const semesterRegistrationService = {
   withdrawCourse,
   confirmMyCourse,
   getMyCourse,
-
   startMyCourse,
 };

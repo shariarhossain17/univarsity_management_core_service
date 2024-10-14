@@ -14,19 +14,20 @@ datasource db {
 }
 
 model AcademicSemester {
-  id                    String                 @id @default(uuid())
-  year                  Int
-  title                 String
-  code                  String
-  isStart               Boolean?               @default(false)
-  startMonth            String
-  endMonth              String
-  createdAt             DateTime               @default(now())
-  updatedAt             DateTime               @updatedAt
-  students              Student[]
-  semesterRegigtrations semesterRegistration[]
-  studentEnrollCourse   studentEnrollCourse[]
-  studentEnrolledMark   studentEnrolledMark[]
+  id                     String                   @id @default(uuid())
+  year                   Int
+  title                  String
+  code                   String
+  isStart                Boolean?                 @default(false)
+  startMonth             String
+  endMonth               String
+  createdAt              DateTime                 @default(now())
+  updatedAt              DateTime                 @updatedAt
+  students               Student[]
+  semesterRegigtrations  semesterRegistration[]
+  studentEnrollCourse    studentEnrollCourse[]
+  studentEnrolledMark    studentEnrolledMark[]
+  studentSemesterPayment studentSemesterPayment[]
 
   @@map("academic_semesters")
 }
@@ -81,6 +82,7 @@ model Student {
   studentSemesterRegistrationCourese studentSemesterRegistrationCourese[]
   studentEnrollCourse                studentEnrollCourse[]
   studentEnrolledMark                studentEnrolledMark[]
+  studentSemesterPayment             studentSemesterPayment[]
 
   @@map("students")
 }
@@ -318,6 +320,23 @@ model studentEnrolledMark {
   updatedAt DateTime @updatedAt
 }
 
+model studentSemesterPayment {
+  id String @id @default(uuid())
+
+  studentId          String
+  student            Student          @relation(fields: [studentId], references: [id])
+  academicSemesterId String
+  academicSemeter    AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+
+  fullPayment      Int            @default(0)
+  partialPayment   Int            @default(0)
+  totalPaidPayment Int            @default(0)
+  paymentStatus    PayementStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum semesterRegistrationStatus {
   UPCOMING
   ONGOING
@@ -333,4 +352,10 @@ enum StudentEnrolledCourse {
 enum ExamType {
   MIDTERM
   FINAL
+}
+
+enum PayementStatus {
+  PENDING
+  PARTIAL_PAID
+  FULL_PAID
 }

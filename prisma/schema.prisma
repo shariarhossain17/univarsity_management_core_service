@@ -26,6 +26,7 @@ model AcademicSemester {
   students              Student[]
   semesterRegigtrations semesterRegistration[]
   studentEnrollCourse   studentEnrollCourse[]
+  studentEnrolledMark   studentEnrolledMark[]
 
   @@map("academic_semesters")
 }
@@ -79,6 +80,7 @@ model Student {
   studnetSemesterRegistration        studnetSemesterRegistration[]
   studentSemesterRegistrationCourese studentSemesterRegistrationCourese[]
   studentEnrollCourse                studentEnrollCourse[]
+  studentEnrolledMark                studentEnrolledMark[]
 
   @@map("students")
 }
@@ -286,13 +288,34 @@ model studentEnrollCourse {
   courseId String
   course   Course @relation(fields: [courseId], references: [id])
 
+  academicSemesterId  String
+  academicSemester    AcademicSemester       @relation(fields: [academicSemesterId], references: [id])
+  grade               String?
+  point               Float                  @default(0)
+  status              StudentEnrolledCourse? @default(ONGOING)
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  studentEnrolledMark studentEnrolledMark[]
+}
+
+model studentEnrolledMark {
+  id String @id @default(uuid())
+
+  studentId String
+  student   Student @relation(fields: [studentId], references: [id])
+
+  studentEnrollCourseId String
+  studentEnrollCourese  studentEnrollCourse @relation(fields: [studentEnrollCourseId], references: [id])
+
   academicSemesterId String
-  academicSemester   AcademicSemester       @relation(fields: [academicSemesterId], references: [id])
-  grade              String?
-  point              Float                  @default(0)
-  status             StudentEnrolledCourse? @default(ONGOING)
-  createdAt          DateTime               @default(now())
-  updatedAt          DateTime               @updatedAt
+  academicSemeter    AcademicSemester @relation(fields: [academicSemesterId], references: [id])
+
+  grade    String?
+  mark     Int?
+  examType ExamType? @default(MIDTERM)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum semesterRegistrationStatus {
@@ -305,4 +328,9 @@ enum StudentEnrolledCourse {
   ONGOING
   COMPLETED
   WITHDRAWN
+}
+
+enum ExamType {
+  MIDTERM
+  FINAL
 }

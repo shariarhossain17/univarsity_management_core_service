@@ -10,6 +10,7 @@ import httpStatus from 'http-status';
 import ApiError from '../../../errors/apiError';
 import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
+import { makeStudentPaymentService } from '../studentPayment/student.payment.service';
 
 const insertToDb = async (
   payload: semesterRegistration
@@ -467,16 +468,16 @@ const startMyCourse = async (id: string) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'semester not found');
   }
 
-  if (semester.status != semesterRegistrationStatus.ENDED) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'semester registration is not ended yet'
-    );
-  }
+  // if (semester.status != semesterRegistrationStatus.ENDED) {
+  //   throw new ApiError(
+  //     httpStatus.BAD_REQUEST,
+  //     'semester registration is not ended yet'
+  //   );
+  // }
 
-  if (semester.academicSemester.isStart) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
-  }
+  // if (semester.academicSemester.isStart) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
+  // }
 
   let result = await prisma.$transaction(async transaction => {
     await transaction.academicSemester.updateMany({
@@ -511,6 +512,16 @@ const startMyCourse = async (id: string) => {
     asyncForEach(
       studentSemesterRegistration,
       async (studentSemReg: studnetSemesterRegistration) => {
+        if (studentSemReg.totalCreditTaken) {
+          const totalMoney = studentSemReg.totalCreditTaken * 5000;
+
+          await makeStudentPaymentService.makeStudentPayment(transaction, {
+            totalMoney: totalMoney,
+            studentId: studentSemReg.studentId,
+            academicSemesterId: semester.acadmicSemesterId,
+          });
+        }
+
         const studentSemesterRegistrationCourses =
           await prisma.studentSemesterRegistrationCourese.findMany({
             where: {
@@ -553,13 +564,11 @@ const startMyCourse = async (id: string) => {
               },
             });
 
-            if (isExist) {
-              throw new ApiError(httpStatus.BAD_REQUEST, "data is't exist");
+            if (!isExist) {
+              await prisma.studentEnrollCourse.create({
+                data: enrollCourseData,
+              });
             }
-
-            await prisma.studentEnrollCourse.create({
-              data: enrollCourseData,
-            });
           }
         );
       }

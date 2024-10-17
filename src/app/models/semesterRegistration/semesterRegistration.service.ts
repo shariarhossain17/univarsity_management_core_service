@@ -565,7 +565,7 @@ const startMyCourse = async (id: string) => {
             });
 
             if (!isExist) {
-              await prisma.studentEnrollCourse.create({
+              await transaction.studentEnrollCourse.create({
                 data: enrollCourseData,
               });
             }

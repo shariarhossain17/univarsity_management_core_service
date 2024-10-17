@@ -298,6 +298,8 @@ model studentEnrollCourse {
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
   studentEnrolledMark studentEnrolledMark[]
+
+  @@map("student_enroll_course")
 }
 
 model studentEnrolledMark {
@@ -318,6 +320,8 @@ model studentEnrolledMark {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("student_enroll_mark")
 }
 
 model studentSemesterPayment {
@@ -331,10 +335,13 @@ model studentSemesterPayment {
   fullPayment      Int            @default(0)
   partialPayment   Int            @default(0)
   totalPaidPayment Int            @default(0)
+  totalDuePayment  Int            @default(0)
   paymentStatus    PayementStatus @default(PENDING)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("student_semester_payment")
 }
 
 enum semesterRegistrationStatus {

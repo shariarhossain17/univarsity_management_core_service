@@ -11,6 +11,7 @@ import ApiError from '../../../errors/apiError';
 import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
 import { makeStudentPaymentService } from '../studentPayment/student.payment.service';
+import { studentEnrolledCourseMarkService } from '../student_enroll_course_mark/student.enroll.course.mark.service';
 
 const insertToDb = async (
   payload: semesterRegistration
@@ -251,7 +252,7 @@ const studentSemesterRegistrationCourse = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'student capacity is full');
   }
 
-  await prisma.$transaction(async transaction => {
+  await prisma.$transaction(async (transaction) => {
     await transaction.studentSemesterRegistrationCourese.create({
       data: {
         studentId: student?.id,
@@ -332,7 +333,7 @@ const withdrawCourse = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'offeredCourse not found');
   }
 
-  await prisma.$transaction(async transaction => {
+  await prisma.$transaction(async (transaction) => {
     await transaction.studentSemesterRegistrationCourese.delete({
       where: {
         semesterRegistrationId_studentId_offeredCourseId: {
@@ -479,8 +480,8 @@ const startMyCourse = async (id: string) => {
   //   throw new ApiError(httpStatus.BAD_REQUEST, 'semester already started');
   // }
 
-  let result = await prisma.$transaction(async transaction => {
-    await transaction.academicSemester.updateMany({
+  let result = await prisma.$transaction(async (pt) => {
+    await pt.academicSemester.updateMany({
       where: {
         isStart: true,
       },
@@ -490,7 +491,7 @@ const startMyCourse = async (id: string) => {
       },
     });
 
-    await transaction.academicSemester.update({
+    await pt.academicSemester.update({
       where: {
         id: semester.academicSemester.id,
       },
@@ -500,7 +501,7 @@ const startMyCourse = async (id: string) => {
     });
 
     const studentSemesterRegistration =
-      await transaction.studnetSemesterRegistration.findMany({
+      await pt.studnetSemesterRegistration.findMany({
         where: {
           semesterRegistration: {
             id,
@@ -509,13 +510,13 @@ const startMyCourse = async (id: string) => {
         },
       });
 
-    asyncForEach(
+    await asyncForEach(
       studentSemesterRegistration,
       async (studentSemReg: studnetSemesterRegistration) => {
         if (studentSemReg.totalCreditTaken) {
           const totalMoney = studentSemReg.totalCreditTaken * 5000;
 
-          await makeStudentPaymentService.makeStudentPayment(transaction, {
+          const r = await makeStudentPaymentService.makeStudentPayment(pt, {
             totalMoney: totalMoney,
             studentId: studentSemReg.studentId,
             academicSemesterId: semester.acadmicSemesterId,
@@ -541,7 +542,7 @@ const startMyCourse = async (id: string) => {
             },
           });
 
-        asyncForEach(
+        await asyncForEach(
           studentSemesterRegistrationCourses,
           async (
             item: studentSemesterRegistrationCourese & {
@@ -556,7 +557,7 @@ const startMyCourse = async (id: string) => {
               academicSemesterId: semester.acadmicSemesterId,
             };
 
-            const isExist = await prisma.studentEnrollCourse.findFirst({
+            const isExistEnrollData = await pt.studentEnrollCourse.findFirst({
               where: {
                 studentId: item.studentId,
                 courseId: item.offeredCoures.courseId,
@@ -564,10 +565,24 @@ const startMyCourse = async (id: string) => {
               },
             });
 
-            if (!isExist) {
-              await transaction.studentEnrollCourse.create({
-                data: enrollCourseData,
-              });
+            if (!isExistEnrollData) {
+              const studentEnrollCourseData =
+                await pt.studentEnrollCourse.create({
+                  data: {
+                    studentId: item.studentId,
+                    courseId: item.offeredCoures.courseId,
+                    academicSemesterId: semester.acadmicSemesterId,
+                  },
+                });
+
+              await studentEnrolledCourseMarkService.creteStudentEnrollCourseDefaultMark(
+                pt,
+                {
+                  studentId: item.studentId,
+                  studentEnrollCourseId: studentEnrollCourseData.id,
+                  academicSemesterId: semester.acadmicSemesterId,
+                }
+              );
             }
           }
         );
@@ -575,7 +590,7 @@ const startMyCourse = async (id: string) => {
     );
   });
 
-  return result;
+  return 'semester start successfully';
 };
 export const semesterRegistrationService = {
   insertToDb,

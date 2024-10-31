@@ -6,21 +6,6 @@
     "auditLog": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/.59eb37e4eb5b7bce84513a44c2745778e809be72-audit.json",
     "files": [
         {
-            "date": 1728991971768,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-15-10-17-error.log",
-            "hash": "ac4d812b98f3c3e2ebf16307b79a219dbe284495ebdc296e275a0ca723050819"
-        },
-        {
-            "date": 1728993635223,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-15-10-18-error.log",
-            "hash": "d2ca2ec90c601d180260f6beea11b8f820d58ee8c464654ce337df5cf27e66f4"
-        },
-        {
-            "date": 1729161484731,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-17-10-16-error.log",
-            "hash": "b168637bd865c7bbb3023abe77158334cd03ad8dd2dfd510ba7e272e327a134f"
-        },
-        {
             "date": 1729439647686,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-20-10-21-error.log",
             "hash": "e0b57e187bd0a169afe05042c814e2c544297605ad3a03e4d0fc78b2a2745a5f"
@@ -69,6 +54,16 @@
             "date": 1730181735460,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-29-10-12-error.log",
             "hash": "112ce8e41daba9b8db837e12b8a98eea37134fa5ae345c9ce11cd685820b3414"
+        },
+        {
+            "date": 1730370553918,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-31-10-16-error.log",
+            "hash": "535d3ed8ea9fcb362dd6559de9f273c9add7bd856365f29526f2da8a5bb24ee8"
+        },
+        {
+            "date": 1730372419083,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-31-10-17-error.log",
+            "hash": "77bd0108b520850ae8f2b001237b1ca062c885ffb477de0c4fe9e71c3a844921"
         }
     ],
     "hashType": "sha256"

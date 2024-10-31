@@ -131,8 +131,31 @@ const updateMarks = async (payload: any) => {
   return result;
 };
 
+const updateFinalMarks = async (payload: any) => {
+  const { studentId, academicSemesterId, courseId } = payload;
+
+  const studentEnrollCourese = await prisma.studentEnrollCourse.findFirst({
+    where: {
+      student: {
+        id: studentId,
+      },
+      academicSemester: {
+        id: academicSemesterId,
+      },
+      course: {
+        id: courseId,
+      },
+    },
+  });
+
+  if (!studentEnrollCourese)
+    throw new ApiError(httpStatus.BAD_REQUEST, 'student not found');
+
+  console.log(studentEnrollCourese);
+};
+
 export const studentEnrolledCourseMarkService = {
   creteStudentEnrollCourseDefaultMark,
-
+  updateFinalMarks,
   updateMarks,
 };

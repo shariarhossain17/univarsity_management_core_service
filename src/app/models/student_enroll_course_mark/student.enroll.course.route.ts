@@ -7,5 +7,9 @@ enrollStudentMarkRouter.patch(
   '/update-marks',
   studentEnrollCourseMarkController.studentMarkUpdate
 );
+enrollStudentMarkRouter.patch(
+  '/update-final-marks',
+  studentEnrollCourseMarkController.studentFinalMarkUpdate
+);
 
 export default enrollStudentMarkRouter;

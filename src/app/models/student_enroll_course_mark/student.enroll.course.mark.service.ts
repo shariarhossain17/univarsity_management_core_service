@@ -151,7 +151,43 @@ const updateFinalMarks = async (payload: any) => {
   if (!studentEnrollCourese)
     throw new ApiError(httpStatus.BAD_REQUEST, 'student not found');
 
-  console.log(studentEnrollCourese);
+  const studentEnrolledCourseMarks = await prisma.studentEnrolledMark.findMany({
+    where: {
+      student: {
+        id: studentId,
+      },
+      academicSemeter: {
+        id: academicSemesterId,
+      },
+      studentEnrollCourese: {
+        course: {
+          id: courseId,
+        },
+      },
+    },
+  });
+
+  if (!studentEnrolledCourseMarks.length)
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'student enroll course mark not found'
+    );
+
+  const midTermMark = studentEnrolledCourseMarks.find(
+    (item) => item.examType === ExamType.MIDTERM
+  )?.mark;
+  const finalMark = studentEnrolledCourseMarks.find(
+    (item) => item.examType === ExamType.FINAL
+  )?.mark;
+
+  let totalMarks;
+  if (midTermMark && finalMark)
+    totalMarks = Math.ceil(midTermMark * 0.4) + Math.ceil(finalMark * 0.6);
+
+  let grade;
+  if (totalMarks) grade = studentMarkUpdateUtils.getGrade(totalMarks);
+
+  console.log(grade?.grade, grade?.point);
 };
 
 export const studentEnrolledCourseMarkService = {

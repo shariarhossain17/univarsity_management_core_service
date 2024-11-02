@@ -1,4 +1,4 @@
-import { ExamType, PrismaClient } from '@prisma/client';
+import { ExamType, PrismaClient, StudentEnrolledCourse } from '@prisma/client';
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/apiError';
 import prisma from '../../../shared/prisma';
@@ -187,7 +187,39 @@ const updateFinalMarks = async (payload: any) => {
   let grade;
   if (totalMarks) grade = studentMarkUpdateUtils.getGrade(totalMarks);
 
-  console.log(grade?.grade, grade?.point);
+  await prisma.studentEnrollCourse.updateMany({
+    where: {
+      student: {
+        id: studentId,
+      },
+      academicSemester: {
+        id: academicSemesterId,
+      },
+      course: {
+        id: courseId,
+      },
+    },
+    data: {
+      grade: grade?.grade,
+      point: grade?.point,
+      totalMarks: totalMarks,
+      status: StudentEnrolledCourse.COMPLETED,
+    },
+  });
+
+  const grades = await prisma.studentEnrollCourse.findMany({
+    where: {
+      student: {
+        id: studentId,
+      },
+      status: StudentEnrolledCourse.COMPLETED,
+    },
+    include: {
+      course: true,
+    },
+  });
+
+  await studentMarkUpdateUtils.geneRateGrades(grades);
 };
 
 export const studentEnrolledCourseMarkService = {

@@ -5,12 +5,13 @@ import { paginationHelpers } from '../../../helper/pagination.helper';
 import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
 import prisma from '../../../shared/prisma';
+import { asyncForEach } from '../../../shared/utils';
+import { offeredCourseClassScheduleUtils } from '../offeredCourseSchedule/offered.course.schedule.utils';
 import { IOfferedCourseFilters } from './offered.course.section.interface';
 
-const insertOfferedCourse = async (
-  data: offeredCoursesSection
-): Promise<offeredCoursesSection> => {
-  console.log(data);
+const insertOfferedCourse = async (payload: any) => {
+  const { classSchedules, ...data } = payload;
+
   const isExistOfferedCourse = await prisma.offeredCourse.findFirst({
     where: {
       id: data.offeredCourseId,
@@ -23,11 +24,35 @@ const insertOfferedCourse = async (
 
   data.semesterRegestrationId = isExistOfferedCourse.semesterRegestrationId;
 
-  const result = await prisma.offeredCoursesSection.create({
-    data: data,
+  await asyncForEach(classSchedules, async (schedule: any) => {
+    await offeredCourseClassScheduleUtils.facultyAvailabilityChecked(schedule);
+    await offeredCourseClassScheduleUtils.checkTimeScheduleAvailable(schedule);
   });
 
-  return result;
+  const createSection = await prisma.$transaction(async (transactionClient) => {
+    const createOfferedCourseSection =
+      await transactionClient.offeredCoursesSection.create({
+        data: data,
+      });
+
+    const scheduleData = classSchedules.map((schedule: any) => ({
+      startTime: schedule.startTime,
+      endTime: schedule.endTime,
+      dayOfWeek: schedule.dayOfWeek,
+      roomId: schedule.roomId,
+      facultyId: schedule.facultyId,
+      offeredCourseSectionId: createOfferedCourseSection.id,
+      semesterRegistrationId: isExistOfferedCourse.semesterRegestrationId,
+    }));
+
+    const createSchedule =
+      await transactionClient.offeredCourseClassSchedule.createMany({
+        data: scheduleData,
+      });
+    return createSchedule;
+  });
+
+  return 'success';
 };
 const getOfferedCourse = async (
   filters: IOfferedCourseFilters,
@@ -42,7 +67,7 @@ const getOfferedCourse = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: ['title'].map(field => ({
+      OR: ['title'].map((field) => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -53,7 +78,7 @@ const getOfferedCourse = async (
 
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
+      AND: Object.keys(filtersData).map((key) => ({
         [key]: {
           equals: filtersData[key as keyof typeof filtersData],
         },

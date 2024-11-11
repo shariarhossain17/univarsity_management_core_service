@@ -22,7 +22,7 @@ export const checkTimeScheduleAvailable = async (
     dayOfWeek: data.dayOfWeek,
   };
 
-  const isBooked = booked.map(b => ({
+  const isBooked = booked.map((b) => ({
     startTime: b.startTime,
     endTime: b.endTime,
     dayOfWeek: b.dayOfWeek,
@@ -51,7 +51,7 @@ const facultyAvailabilityChecked = async (data: offeredCourseClassSchedule) => {
     dayOfWeek: data.dayOfWeek,
   };
 
-  const isBooked = booked.map(b => ({
+  const isBooked = booked.map((b) => ({
     startTime: b.startTime,
     endTime: b.endTime,
     dayOfWeek: b.dayOfWeek,
@@ -60,8 +60,6 @@ const facultyAvailabilityChecked = async (data: offeredCourseClassSchedule) => {
   if (isTimeChecked(isBooked, newDate)) {
     throw new ApiError(httpStatus.CONFLICT, `faculty already booked `);
   }
-
-  console.log(facultyAvailabilityChecked);
 };
 
 export const offeredCourseClassScheduleUtils = {

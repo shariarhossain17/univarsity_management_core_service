@@ -1,4 +1,4 @@
-import { Course, StudentEnrolledCourse } from '@prisma/client';
+import { Course, studentEnrollCourse } from '@prisma/client';
 
 const getGrade = (mark: number) => {
   let result = {
@@ -29,17 +29,12 @@ const getGrade = (mark: number) => {
 };
 
 const geneRateGrades = (
-  payload: (StudentEnrolledCourse & { course: Course })[]
+  payload: (studentEnrollCourse & { course: Course })[]
 ) => {
-  let result = {
-    totalCompletedCredit: 0,
-    cgpa: 0,
-  };
-
   if (!payload.length) {
-    result = {
-      totalCompletedCredit: 0,
-      cgpa: 0,
+    return {
+      completedCredit: 0,
+      totalCgpa: 0,
     };
   }
 
@@ -51,9 +46,12 @@ const geneRateGrades = (
     totalCredit += grade?.course.credits;
   }
 
-  let avgCGPA = totalCgpa / payload.length;
+  let avgCGPA = (totalCgpa / payload.length).toFixed(2);
 
-  console.log(avgCGPA);
+  return {
+    completedCredit: totalCredit,
+    totalCgpa: Number(avgCGPA),
+  };
 };
 
 export const studentMarkUpdateUtils = {

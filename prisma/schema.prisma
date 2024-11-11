@@ -349,8 +349,8 @@ model studentSemesterPayment {
 model StudentAcademicInfo {
   id String @id @default(uuid())
 
-  stuedentId           String
-  student              Student @relation(fields: [stuedentId], references: [id])
+  studentId            String
+  student              Student @relation(fields: [studentId], references: [id])
   totalCompletedCredit Int?
   cgpa                 Float?  @default(0)
 

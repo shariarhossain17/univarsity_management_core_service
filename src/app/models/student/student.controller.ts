@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { student } from '@prisma/client';
+import { Student } from '@prisma/client';
 import httpStatus from 'http-status';
 import { paginationFields } from '../../../constants/pagination';
 import catchAsync from '../../../shared/catchAsynch';
@@ -11,7 +11,7 @@ import { studentService } from './student.service';
 
 const createStudent = catchAsync(async (req: Request, res: Response) => {
   const result = await studentService.createStudentService(req.body);
-  sendResponse<student>(res, {
+  sendResponse<Student>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'student data create success',
@@ -24,7 +24,7 @@ const getAllStudent = catchAsync(async (req: Request, res: Response) => {
 
   const paginationOptions = pick(req.query, paginationFields);
   const result = await studentService.getAllStudent(option, paginationOptions);
-  sendResponse<student[]>(res, {
+  sendResponse<Student[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'student data retrieve  success',
@@ -35,7 +35,7 @@ const getAllStudent = catchAsync(async (req: Request, res: Response) => {
 
 const getSingleStudent = catchAsync(async (req: Request, res: Response) => {
   const result = await studentService.getSingleStudent(req.params.id);
-  sendResponse<student | null>(res, {
+  sendResponse<Student | null>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'student data retrieve  success',
@@ -61,10 +61,24 @@ const deleteStudent = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+
+const getMyCourse = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as any;
+
+  const filter = pick(req.query, ['courseId', 'academicSemesterId']);
+  const result = await studentService.getMyCourse(user.userId, filter);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'student course fetched course',
+    data: result,
+  });
+});
 export const createStudentController = {
   createStudent,
   getSingleStudent,
   getAllStudent,
   updateStudent,
   deleteStudent,
+  getMyCourse,
 };

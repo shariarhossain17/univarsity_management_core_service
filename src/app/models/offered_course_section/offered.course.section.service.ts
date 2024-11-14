@@ -6,10 +6,13 @@ import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
 import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
+import { IOfferedSectionCreate } from '../offeredCourseSchedule/offered.course.schedule.interface';
 import { offeredCourseClassScheduleUtils } from '../offeredCourseSchedule/offered.course.schedule.utils';
 import { IOfferedCourseFilters } from './offered.course.section.interface';
 
-const insertOfferedCourse = async (payload: any) => {
+const insertOfferedCourse = async (
+  payload: IOfferedSectionCreate
+): Promise<offeredCoursesSection | null> => {
   const { classSchedules, ...data } = payload;
 
   const isExistOfferedCourse = await prisma.offeredCourse.findFirst({
@@ -29,6 +32,19 @@ const insertOfferedCourse = async (payload: any) => {
     await offeredCourseClassScheduleUtils.checkTimeScheduleAvailable(schedule);
   });
 
+  const offeredCourseData = await prisma.offeredCoursesSection.findFirst({
+    where: {
+      offeredCourse: {
+        id: data.offeredCourseId,
+      },
+      title: data.title,
+    },
+  });
+
+  if (offeredCourseData) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Course section already exist');
+  }
+
   const createSection = await prisma.$transaction(async (transactionClient) => {
     const createOfferedCourseSection =
       await transactionClient.offeredCoursesSection.create({
@@ -45,14 +61,36 @@ const insertOfferedCourse = async (payload: any) => {
       semesterRegistrationId: isExistOfferedCourse.semesterRegestrationId,
     }));
 
-    const createSchedule =
-      await transactionClient.offeredCourseClassSchedule.createMany({
-        data: scheduleData,
-      });
-    return createSchedule;
+    await transactionClient.offeredCourseClassSchedule.createMany({
+      data: scheduleData,
+    });
+    return createOfferedCourseSection;
   });
 
-  return 'success';
+  const result = await prisma.offeredCoursesSection.findFirst({
+    where: {
+      id: createSection.id,
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          Courses: true,
+        },
+      },
+      offeredCourseClassSchedule: {
+        include: {
+          room: {
+            include: {
+              building: true,
+            },
+          },
+          faculty: true,
+        },
+      },
+    },
+  });
+
+  return result;
 };
 const getOfferedCourse = async (
   filters: IOfferedCourseFilters,

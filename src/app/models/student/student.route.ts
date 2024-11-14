@@ -14,6 +14,12 @@ studentRouter.post(
   createStudentController.createStudent
 );
 
+studentRouter.get(
+  '/myCourse',
+  auth(ENUM_USER_ROLE.STUDENT),
+  createStudentController.getMyCourse
+);
+
 studentRouter.get('/', createStudentController.getAllStudent);
 
 studentRouter.get('/:id', createStudentController.getSingleStudent);

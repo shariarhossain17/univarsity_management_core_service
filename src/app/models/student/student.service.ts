@@ -26,7 +26,7 @@ const getAllStudent = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: studentFilterableField.map(field => ({
+      OR: studentFilterableField.map((field) => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -37,7 +37,7 @@ const getAllStudent = async (
 
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
+      AND: Object.keys(filtersData).map((key) => ({
         [key]: {
           equals: (filtersData as any)[key],
         },
@@ -113,10 +113,42 @@ const deleteStudent = async (id: string): Promise<Student> => {
 
   return result;
 };
+
+const getMyCourse = async (
+  userId: string,
+  filter: {
+    courseId?: string | undefined;
+    academicSemesterId?: string | undefined;
+  }
+) => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isStart: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const result = await prisma.studentEnrollCourse.findMany({
+    where: {
+      student: {
+        studentId: userId,
+      },
+      ...filter,
+    },
+    include: {
+      course: true,
+    },
+  });
+
+  return result;
+};
 export const studentService = {
   createStudentService,
   getSingleStudent,
   getAllStudent,
   updateStudent,
   deleteStudent,
+  getMyCourse,
 };

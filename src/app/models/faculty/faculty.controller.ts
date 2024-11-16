@@ -86,6 +86,19 @@ const deleteCourses = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMyCourse = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user as any;
+
+  const filter = pick(req.query, ['academicSemesterId', 'courseId']);
+  const result = await facultyService.myCourse(user, filter);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'courses get success',
+    data: result,
+  });
+});
+
 export const facultyController = {
   createFaculty,
   getSingleStudent,
@@ -94,4 +107,5 @@ export const facultyController = {
   updateFaculty,
   assignCourses,
   deleteCourses,
+  getMyCourse,
 };

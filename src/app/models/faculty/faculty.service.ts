@@ -26,7 +26,7 @@ const getAllFaculty = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: facultyFilterableField.map(field => ({
+      OR: facultyFilterableField.map((field) => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -37,7 +37,7 @@ const getAllFaculty = async (
 
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
+      AND: Object.keys(filtersData).map((key) => ({
         [key]: {
           equals: (filtersData as any)[key],
         },
@@ -103,6 +103,7 @@ const updateFaculty = async (
 };
 
 const deleteFaculty = async (id: string): Promise<Faculty> => {
+  console.log('hello');
   const result = await prisma.faculty.delete({
     where: {
       id,
@@ -117,7 +118,7 @@ const assignCourses = async (
   payload: string[]
 ): Promise<CourseFaculty[]> => {
   await prisma.courseFaculty.createMany({
-    data: payload.map(courseId => ({
+    data: payload.map((courseId) => ({
       facultyId: id,
       courseId: courseId,
     })),
@@ -160,6 +161,59 @@ const deleteCourses = async (
 
   return res;
 };
+
+const myCourse = async (
+  user: { userId: string; role: string },
+  filter: {
+    academicSemesterId: string | null | undefined;
+    courseId: string | null | undefined;
+  }
+) => {
+  if (!filter.academicSemesterId) {
+    const currentSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isStart: true,
+      },
+    });
+    filter.academicSemesterId = currentSemester?.id;
+  }
+
+  const offeredCourseSections = await prisma.offeredCoursesSection.findMany({
+    where: {
+      offeredCourseClassSchedule: {
+        some: {
+          faculty: {
+            facultyId: user.userId,
+          },
+        },
+      },
+      offeredCourse: {
+        semesterRegestration: {
+          academicSemester: {
+            id: filter.academicSemesterId,
+          },
+        },
+      },
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          Courses: true,
+        },
+      },
+      offeredCourseClassSchedule: {
+        include: {
+          room: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+    },
+  });
+  console.log(offeredCourseSections);
+};
 export const facultyService = {
   createFacultytService,
   getSingleFaculty,
@@ -168,4 +222,5 @@ export const facultyService = {
   updateFaculty,
   assignCourses,
   deleteCourses,
+  myCourse,
 };

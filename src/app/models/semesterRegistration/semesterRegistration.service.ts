@@ -636,7 +636,58 @@ const getSemesterRegCourse = async (auUserId: string) => {
     },
   });
 
-  console.log(studentCompletedCourse);
+  const studentCurrentSemesterCourse =
+    await prisma.studentSemesterRegistrationCourese.findMany({
+      where: {
+        student: {
+          id: student?.id,
+        },
+        semesterRegistration: {
+          id: semesterRegistration.id,
+        },
+      },
+      include: {
+        offeredCoures: true,
+        offeredCourseSection: true,
+      },
+    });
+
+  const offeredCourse = prisma.offeredCourse.findMany({
+    where: {
+      semesterRegestration: {
+        id: semesterRegistration.id,
+      },
+      academicDepartment: {
+        id: student?.academicDepartmentId,
+      },
+    },
+    include: {
+      Courses: {
+        include: {
+          preRequisite: {
+            include: {
+              preRequisite: true,
+            },
+          },
+        },
+      },
+      offerdCoursesSections: {
+        include: {
+          offeredCourseClassSchedule: {
+            include: {
+              room: {
+                include: {
+                  building: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  console.log(offeredCourse);
 };
 export const semesterRegistrationService = {
   insertToDb,

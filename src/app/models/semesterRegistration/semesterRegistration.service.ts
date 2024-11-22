@@ -1,5 +1,6 @@
 import {
   Course,
+  StudentEnrolledCourse,
   offeredCourse,
   semesterRegistration,
   semesterRegistrationStatus,
@@ -592,6 +593,51 @@ const startMyCourse = async (id: string) => {
 
   return 'semester start successfully';
 };
+
+const getSemesterRegCourse = async (auUserId: string) => {
+  const student = await prisma.student.findFirst({
+    where: {
+      studentId: auUserId,
+    },
+  });
+
+  console.log(student);
+
+  const semesterRegistration = await prisma.semesterRegistration.findFirst({
+    where: {
+      status: {
+        in: [
+          semesterRegistrationStatus.ONGOING,
+          semesterRegistrationStatus.UPCOMING,
+        ],
+      },
+    },
+    include: {
+      academicSemester: true,
+    },
+  });
+
+  if (!semesterRegistration) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'semester registration not found'
+    );
+  }
+
+  const studentCompletedCourse = await prisma.studentEnrollCourse.findMany({
+    where: {
+      status: StudentEnrolledCourse.COMPLETED,
+      student: {
+        id: student?.id,
+      },
+    },
+    include: {
+      course: true,
+    },
+  });
+
+  console.log(studentCompletedCourse);
+};
 export const semesterRegistrationService = {
   insertToDb,
   deleteSemesterRegistration,
@@ -604,4 +650,5 @@ export const semesterRegistrationService = {
   confirmMyCourse,
   getMyCourse,
   startMyCourse,
+  getSemesterRegCourse,
 };

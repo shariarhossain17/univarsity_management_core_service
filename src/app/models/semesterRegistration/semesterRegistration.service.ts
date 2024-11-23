@@ -13,6 +13,7 @@ import prisma from '../../../shared/prisma';
 import { asyncForEach } from '../../../shared/utils';
 import { makeStudentPaymentService } from '../studentPayment/student.payment.service';
 import { studentEnrolledCourseMarkService } from '../student_enroll_course_mark/student.enroll.course.mark.service';
+import { semesterRegistrationUtils } from './semesterRegistration.utils';
 
 const insertToDb = async (
   payload: semesterRegistration
@@ -601,8 +602,6 @@ const getSemesterRegCourse = async (auUserId: string) => {
     },
   });
 
-  console.log(student);
-
   const semesterRegistration = await prisma.semesterRegistration.findFirst({
     where: {
       status: {
@@ -652,7 +651,7 @@ const getSemesterRegCourse = async (auUserId: string) => {
       },
     });
 
-  const offeredCourse = prisma.offeredCourse.findMany({
+  const offeredCourse = await prisma.offeredCourse.findMany({
     where: {
       semesterRegestration: {
         id: semesterRegistration.id,
@@ -687,7 +686,11 @@ const getSemesterRegCourse = async (auUserId: string) => {
     },
   });
 
-  console.log(offeredCourse);
+  const availableCourse = semesterRegistrationUtils.getAvailableCourse(
+    offeredCourse,
+    studentCompletedCourse,
+    studentCurrentSemesterCourse
+  );
 };
 export const semesterRegistrationService = {
   insertToDb,

@@ -79,6 +79,21 @@
             "date": 1732273643657,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-22-11-17-error.log",
             "hash": "c79be8bec403a886731a77e014920f3c35a1ced5a37b1927538f02998a9e6180"
+        },
+        {
+            "date": 1732356771386,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-23-11-16-error.log",
+            "hash": "931f7a7aaef40a22b5a44e7fc966271fbceda7a77657629c9459b134e7430675"
+        },
+        {
+            "date": 1732364506520,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-23-11-18-error.log",
+            "hash": "d3e2b03706fdf80ac8406baf89a48f7b592a18388f6b49dce5afd5ccbb97382d"
+        },
+        {
+            "date": 1732367419613,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/errors/phu-2024-23-11-19-error.log",
+            "hash": "cee0e85d7724b18e30e1556aedb922524ba7bf64bd8223c6c301984c95a70c5a"
         }
     ],
     "hashType": "sha256"

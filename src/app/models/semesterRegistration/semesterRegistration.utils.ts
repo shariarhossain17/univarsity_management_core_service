@@ -14,17 +14,49 @@ const getAvailableCourse = (
     .filter((course: any) => {
       const preRequisites = course.Courses.preRequisite;
 
+      // console.log(preRequisites)
+
       if (preRequisites.length == 0) return true;
       else {
         const preRequisiteIds = preRequisites.map(
           (preRequisite: any) => preRequisite.preRequisiteId
         );
 
-        console.log(preRequisiteIds);
+        return preRequisiteIds.map((id: string) =>
+          completedCoursesId.includes(id)
+        );
+      }
+    })
+    .map((course: any) => {
+      const isAlreadyTaken = studentCurrentlyCourse.find(
+        (c: any) => c.offeredCourseId == course.id
+      );
+
+      if (isAlreadyTaken) {
+        course.offerdCoursesSections.map((section: any) => {
+          if (section.id == isAlreadyTaken.offeredCourseSectionId) {
+            section.isTaken = true;
+          } else {
+            section.isTaken = false;
+          }
+        });
+
+        return {
+          ...course,
+          isTaken: true,
+        };
+      } else {
+        course.offerdCoursesSections.map((section: any) => {
+          section.isTaken = false;
+        });
+        return {
+          ...course,
+          isTaken: false,
+        };
       }
     });
 
-  return null;
+  return availableCourseList;
 };
 
 export const semesterRegistrationUtils = {

@@ -691,6 +691,8 @@ const getSemesterRegCourse = async (auUserId: string) => {
     studentCompletedCourse,
     studentCurrentSemesterCourse
   );
+
+  return availableCourse;
 };
 export const semesterRegistrationService = {
   insertToDb,

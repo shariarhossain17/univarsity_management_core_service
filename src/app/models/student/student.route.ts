@@ -19,6 +19,16 @@ studentRouter.get(
   auth(ENUM_USER_ROLE.STUDENT),
   createStudentController.getMyCourse
 );
+studentRouter.get(
+  '/get-academic-info',
+  auth(ENUM_USER_ROLE.STUDENT),
+  createStudentController.getMyAcademicInfo
+);
+studentRouter.get(
+  '/my-course-schedule',
+  auth(ENUM_USER_ROLE.STUDENT),
+  createStudentController.getMyCourseSchedule
+);
 
 studentRouter.get('/', createStudentController.getAllStudent);
 

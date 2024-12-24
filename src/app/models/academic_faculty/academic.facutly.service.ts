@@ -3,6 +3,8 @@ import { paginationHelpers } from '../../../helper/pagination.helper';
 import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
 import prisma from '../../../shared/prisma';
+import { RedisClient } from '../../../shared/redis';
+import { EVENT_ACADEMIC_FACULTY_CREATED } from './academic.faculty.constant';
 import { IAcademicFacultyFilters } from './acadmic.faculty.interface';
 
 const createAcademicFaculty = async (
@@ -11,6 +13,13 @@ const createAcademicFaculty = async (
   const result = await prisma.academicFaculty.create({
     data,
   });
+
+  if (result) {
+    await RedisClient.pubClient(
+      EVENT_ACADEMIC_FACULTY_CREATED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
@@ -28,7 +37,7 @@ const getAllFaculty = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: ['title'].map(field => ({
+      OR: ['title'].map((field) => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -39,7 +48,7 @@ const getAllFaculty = async (
 
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
+      AND: Object.keys(filtersData).map((key) => ({
         [key]: {
           equals: (filtersData as any)[key],
         },

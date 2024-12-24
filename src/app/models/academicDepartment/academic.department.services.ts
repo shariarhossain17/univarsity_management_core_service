@@ -3,6 +3,8 @@ import { paginationHelpers } from '../../../helper/pagination.helper';
 import { IGenericResponse } from '../../../interface/common';
 import { IPaginationOptions } from '../../../interface/pagination';
 import prisma from '../../../shared/prisma';
+import { RedisClient } from '../../../shared/redis';
+import { EVENT_ACADEMIC_DEPARTMENT_CREATED } from './academic.department.constant';
 import { IAcademicDepartmentFilters } from './academic.department.interface';
 
 const createAcademicDepartment = async (
@@ -11,6 +13,13 @@ const createAcademicDepartment = async (
   const result = await prisma.academicDepartment.create({
     data: data,
   });
+
+  if (result) {
+    await RedisClient.pubClient(
+      EVENT_ACADEMIC_DEPARTMENT_CREATED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
@@ -28,7 +37,7 @@ const getAllDepartment = async (
 
   if (searchTerm) {
     andConditions.push({
-      OR: ['title'].map(field => ({
+      OR: ['title'].map((field) => ({
         [field]: {
           contains: searchTerm,
           mode: 'insensitive',
@@ -39,7 +48,7 @@ const getAllDepartment = async (
 
   if (Object.keys(filtersData).length > 0) {
     andConditions.push({
-      AND: Object.keys(filtersData).map(key => ({
+      AND: Object.keys(filtersData).map((key) => ({
         [key]: {
           equals: (filtersData as any)[key],
         },

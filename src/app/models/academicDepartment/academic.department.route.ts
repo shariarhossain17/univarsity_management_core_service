@@ -8,6 +8,7 @@ const academicDepartmentRouter = express.Router();
 academicDepartmentRouter.post(
   '/',
   validateRequest(academicDepartmentZodValidation.createAcademicDepartment),
+  // auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   academicDepartmentController.createAcademicDepartment
 );
 academicDepartmentRouter.get(

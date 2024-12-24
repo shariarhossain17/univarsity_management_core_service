@@ -14,6 +14,8 @@ const createAcademicDepartment = catchAsync(
       req.body
     );
 
+    // console.log(result);
+
     sendResponse<AcademicDepartment>(res, {
       statusCode: httpStatus.OK,
       success: true,

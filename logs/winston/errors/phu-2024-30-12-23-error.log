@@ -1,0 +1,21 @@
+Mon Dec 30 2024 23:39:13 } [PH] error: 
+Invalid `prisma.student.create()` invocation:
+
+{
+  data: {
+    studentId: "200300001",
+    firstName: "John",
+    lastName: "Doe",
+    middleName: "Michael",
+    email: "john.doe@example.com",
+    contactNo: "+1234567890",
+    gender: "male",
+    bloodGroup: "A+",
+    academicSemesterId: "e913ce7f-df7a-42c8-ab79-81ef60b0fdfe",
+    academicFacultyId: "c5f56cc7-6840-41da-a42d-ca710a209210",
+    academicDepartmentId: "20e915b9-e401-44a4-ab4a-1c423312a8d6",
++   designation: String
+  }
+}
+
+Argument `designation` is missing.

@@ -11,6 +11,8 @@ const createStudentService = async (data: Student): Promise<Student> => {
   const result = await prisma.student.create({
     data,
   });
+
+  console.log(result);
   return result;
 };
 
@@ -249,6 +251,24 @@ const getMyAcademicInfo = async (userId: string) => {
     courses: groupByAcademicSemesterData,
   };
 };
+
+const createStudentFromEvent = async (e: any) => {
+  const studentData: Partial<Student> = {
+    studentId: e.id,
+    firstName: e.name.firstName,
+    lastName: e.name.lastName,
+    middleName: e.name.middleName,
+    email: e.email,
+    contactNo: e.contactNo,
+    gender: e.gender,
+    bloodGroup: e.bloodGroup,
+    academicSemesterId: e.academicSemester.syncId,
+    academicFacultyId: e.academicFaculty.syncId,
+    academicDepartmentId: e.academicDepartment.syncId,
+  };
+
+  await createStudentService(studentData as Student);
+};
 export const studentService = {
   createStudentService,
   getSingleStudent,
@@ -258,4 +278,5 @@ export const studentService = {
   getMyCourse,
   getMyCourseSchedule,
   getMyAcademicInfo,
+  createStudentFromEvent,
 };

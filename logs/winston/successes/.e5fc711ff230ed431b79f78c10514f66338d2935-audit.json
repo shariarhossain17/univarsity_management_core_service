@@ -6,36 +6,6 @@
     "auditLog": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/.e5fc711ff230ed431b79f78c10514f66338d2935-audit.json",
     "files": [
         {
-            "date": 1734002355985,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-12-12-17-success.log",
-            "hash": "da376544952ca5fc8a7e385678caf160beeb752dd7b91c1ee8812a1df37e91a1"
-        },
-        {
-            "date": 1734115212413,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-14-12-00-success.log",
-            "hash": "3fd6085f36b2ea7c23627c3ab62bf50492fa720739533c08cd928d0586abcb62"
-        },
-        {
-            "date": 1734172102852,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-14-12-16-success.log",
-            "hash": "dede950986f75c5cc822eb8963e3b3b74658be349c15b54da3a8c4f8c757153b"
-        },
-        {
-            "date": 1734176030922,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-14-12-17-success.log",
-            "hash": "619f6ccf82a6ae6a4195d7aec1ec47823f6fc8c82f8bf95bc97f1489e37cbbf3"
-        },
-        {
-            "date": 1734261889705,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-15-12-17-success.log",
-            "hash": "507bb94f8b37bfc3226d3e58a8904260e1473a0c08691c280ca0432b68e34efc"
-        },
-        {
-            "date": 1734264926692,
-            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-15-12-18-success.log",
-            "hash": "3bd7e0fabc825c3c9bf0da545d16ec48528860ab87067ca665f12516da5f9a83"
-        },
-        {
             "date": 1734357557180,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-16-12-19-success.log",
             "hash": "9c600e438d5dfd3a6c8a651c0d101000005138e06de4c22d9543bc787d5396f6"
@@ -94,6 +64,26 @@
             "date": 1735024162038,
             "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-24-12-13-success.log",
             "hash": "70031c04fec4e21434a04fb329dba1ba2eb287ea287431fa5139f6d013553c1d"
+        },
+        {
+            "date": 1735123244855,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-25-12-16-success.log",
+            "hash": "fce1252727c6d75ed1e48a499b1d714e449a2c5a7f0ef3d215a3c82c590bfc26"
+        },
+        {
+            "date": 1735124955857,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-25-12-17-success.log",
+            "hash": "c4303f139f8e3cbd6aa3001c6c3a5d4fa2208731a3576b5e3dbffaca0c17444b"
+        },
+        {
+            "date": 1735557867153,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-30-12-17-success.log",
+            "hash": "84d0de830bdb6777cc20c83fa63eb751983125730c86e212bc48ae7f5548570c"
+        },
+        {
+            "date": 1735564338257,
+            "name": "/Users/shariar17/Documents/programming/Full-stack-development/Backend/univarsitye_mangement_core_service/logs/winston/successes/phu-2024-30-12-19-success.log",
+            "hash": "df9affd05d6ec1b4cc78ccf9b9307237ae2b5fb5a24068ba34287e79d75d8dbc"
         }
     ],
     "hashType": "sha256"
